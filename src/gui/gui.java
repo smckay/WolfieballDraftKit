@@ -36,7 +36,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
+import properties_manager.PropertiesManager;
+import wolfieballdraftkit.PropertyType;
+import wolfieballdraftkit.StartupConstants;
 /**
  *
  * @author sammckay
@@ -61,6 +63,8 @@ public class gui {
     Button exportButton;
     Button exitButton;
     
+    // THIS IS THE BOTTOM TOOLBAR AND ITS CONTROLS
+    
     
     
     public gui(Stage initPrimaryStage) {
@@ -71,11 +75,31 @@ public class gui {
     
             initFileToolbar();
             
+            initEventHandlers();
+            
             initWindow("Wolfieball");
         
     }
     
-    public void initFileToolbar(){};
+    public void initEventHandlers(){
+        
+        newDraftButton.setOnAction(e -> {
+            System.out.println("Success");
+        });
+    
+    };
+    
+    public void initFileToolbar(){
+       topToolbarPane = new FlowPane();
+      
+       // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
+       // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
+       newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, PropertyType.NEW_DRAFT_TOOLTIP, false);
+       loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, PropertyType.LOAD_DRAFT_TOOLTIP, false);
+       saveDraftButton = initChildButton(topToolbarPane, PropertyType.SAVE_DRAFT_ICON, PropertyType.SAVE_DRAFT_TOOLTIP, true);
+       exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, PropertyType.EXPORT_TOOLTIP, true);
+       exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, PropertyType.EXIT_TOOLTIP, false);
+    };
     
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
     // THERE EXCEPT THE WORKSPACE, WHICH WILL BE ADDED THE FIRST
@@ -106,6 +130,20 @@ public class gui {
         //primaryScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
         primaryStage.setScene(primaryScene);
         primaryStage.show();
+    }
+    
+    // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
+    private Button initChildButton(Pane toolbar, PropertyType icon, PropertyType tooltip, boolean disabled) {
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        String imagePath = "file:" + StartupConstants.PATH_IMAGES + props.getProperty(icon.toString());
+        Image buttonImage = new Image(imagePath);
+        Button button = new Button();
+        button.setDisable(disabled);
+        button.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip.toString()));
+        button.setTooltip(buttonTooltip);
+        toolbar.getChildren().add(button);
+        return button;
     }
     
 }
