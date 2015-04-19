@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import wolfieballdraftkit.PropertyType;
 import wolfieballdraftkit.StartupConstants;
+import Controller.FileController;
 /**
  *
  * @author sammckay
@@ -51,9 +52,19 @@ public class gui {
      // THIS IS THE STAGE'S SCENE GRAPH
     Scene primaryScene;
     
-    // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
+    // THESE PANES ORGANIZE THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
-    BorderPane wbPane;
+    BorderPane fantasyTeamsPane;
+    BorderPane playersPane;
+    BorderPane fantasyStandingsPane;
+    BorderPane draftPane;
+    BorderPane mlbTeamsPane;
+    
+    boolean fantasyTeamsSpaceActivated;
+    boolean playersSpaceActivated;
+    boolean fantasyStandingsSpaceActivated;
+    boolean draftSpaceActivated;
+    boolean mlbTeamsSpaceActivated;
     
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
     FlowPane topToolbarPane;
@@ -64,7 +75,17 @@ public class gui {
     Button exitButton;
     
     // THIS IS THE BOTTOM TOOLBAR AND ITS CONTROLS
+    FlowPane bottomToolbarPane;
+    Button FantasyTeams;
+    Button Players;
+    Button FantasyStandings;
+    Button Draft;
+    Button MLBTeams;
     
+    // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
+    BorderPane workspacePane;
+    
+    FileController filecontroller;
     
     
     public gui(Stage initPrimaryStage) {
@@ -73,7 +94,7 @@ public class gui {
  
     public void initGui(){
     
-            initFileToolbar();
+            initTopToolbar();
             
             initEventHandlers();
             
@@ -82,14 +103,19 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        
+        filecontroller = new FileController();
         newDraftButton.setOnAction(e -> {
-            System.out.println("Success");
+            filecontroller.handleNewDraftRequest(this);
         });
     
     };
     
-    public void initFileToolbar(){
+    public void initPlayerScreen(){
+        workspacePane = new BorderPane();
+      
+    }
+    
+    public void initTopToolbar(){
        topToolbarPane = new FlowPane();
       
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
@@ -100,6 +126,18 @@ public class gui {
        exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, PropertyType.EXPORT_TOOLTIP, true);
        exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, PropertyType.EXIT_TOOLTIP, false);
     };
+    
+    public void initBottomToolbar(){
+       bottomToolbarPane = new FlowPane();
+      
+       // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
+       // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
+       FantasyTeams = initChildButton(topToolbarPane, PropertyType.FANTASY_TEAMS_ICON, PropertyType.FANTASY_TEAMS_TOOLTIP, false);
+       Players = initChildButton(topToolbarPane, PropertyType.PLAYERS_ICON, PropertyType.PLAYERS_TOOLTIP, false);
+       FantasyStandings = initChildButton(topToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, PropertyType.FANTASY_STANDINGS_TOOLTIP, false);
+       Draft = initChildButton(topToolbarPane, PropertyType.DRAFT_ICON, PropertyType.DRAFT_TOOLTIP, false);
+       MLBTeams = initChildButton(topToolbarPane, PropertyType.MLBTEAMS_ICON, PropertyType.MLBTEAMS_TOOLTIP, false);
+    }
     
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
     // THERE EXCEPT THE WORKSPACE, WHICH WILL BE ADDED THE FIRST
@@ -145,5 +183,21 @@ public class gui {
         toolbar.getChildren().add(button);
         return button;
     }
+    
+     public void updateToolbarControls(boolean saved) {
+        // THIS TOGGLES WITH WHETHER THE CURRENT COURSE
+        // HAS BEEN SAVED OR NOT
+        saveDraftButton.setDisable(saved);
+
+        // ALL THE OTHER BUTTONS ARE ALWAYS ENABLED
+        // ONCE EDITING THAT FIRST COURSE BEGINS
+        loadDraftButton.setDisable(false);
+        exportButton.setDisable(false);
+
+        // NOTE THAT THE NEW, LOAD, AND EXIT BUTTONS
+        // ARE NEVER DISABLED SO WE NEVER HAVE TO TOUCH THEM
+    }
+     
+  
     
 }
