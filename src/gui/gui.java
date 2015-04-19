@@ -56,6 +56,10 @@ public class gui {
     Scene primaryScene;
     
     Text fantasyTeamsText;
+    Text playersText;
+    Text fantasyStandingsText;
+    Text draftText;
+    Text mlbTeamsText;
     
     // THESE PANES ORGANIZE THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
@@ -65,15 +69,9 @@ public class gui {
     
     BorderPane fantasyTeamsPane;
     BorderPane playersPane;
-    VBox fantasyStandingsBox;
-    VBox draftBox;
-    VBox mlbTeamsBox;
-    
-    boolean fantasyTeamsSpaceActivated;
-    boolean playersSpaceActivated;
-    boolean fantasyStandingsSpaceActivated;
-    boolean draftSpaceActivated;
-    boolean mlbTeamsSpaceActivated;
+    BorderPane fantasyStandingsPane;
+    BorderPane draftPane;
+    BorderPane mlbTeamsPane;
     
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
     FlowPane topToolbarPane;
@@ -118,6 +116,21 @@ public class gui {
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
         });
+        FantasyTeams.setOnAction(e -> {
+            initFantasyTeamsScreen();
+        });
+        Players.setOnAction(e -> {
+            initPlayersScreen();
+        });
+        FantasyStandings.setOnAction(e -> {
+            initFantasyStandingsScreen();
+        });
+        Draft.setOnAction(e -> {
+            initDraftScreen();
+        });
+        MLBTeams.setOnAction(e -> {
+            initMlbTeamsScreen();
+        });
     
     };
     
@@ -130,6 +143,63 @@ public class gui {
         fantasyTeamsPane.setTop(fantasyTeamsText);
 
         wbPane.setCenter(fantasyTeamsPane);
+        wbPane.setBottom(bottomToolbarPane);
+        
+      
+    }
+    
+    public void initPlayersScreen(){
+
+        playersPane = new BorderPane();
+        playersText = new Text("   Available Players");
+        playersText.setFont(Font.font("Verdana", 30));
+        playersText.setFill(Color.RED);
+        playersPane.setTop(playersText);
+
+        wbPane.setCenter(playersPane);
+        wbPane.setBottom(bottomToolbarPane);
+        
+      
+    }
+    
+    public void initFantasyStandingsScreen(){
+
+        fantasyStandingsPane = new BorderPane();
+        fantasyStandingsText = new Text("   Fantasy Standings");
+        fantasyStandingsText.setFont(Font.font("Verdana", 30));
+        fantasyStandingsText.setFill(Color.RED);
+        fantasyStandingsPane.setTop(fantasyStandingsText);
+
+        wbPane.setCenter(fantasyStandingsPane);
+        wbPane.setBottom(bottomToolbarPane);
+        
+      
+    }
+    
+    public void initDraftScreen(){
+
+        draftPane = new BorderPane();
+        draftText = new Text("   Draft Summary");
+        draftText.setFont(Font.font("Verdana", 30));
+        draftText.setFill(Color.RED);
+        draftPane.setTop(draftText);
+
+        wbPane.setCenter(draftPane);
+        wbPane.setBottom(bottomToolbarPane);
+        
+      
+    }
+    
+    public void initMlbTeamsScreen(){
+
+        mlbTeamsPane = new BorderPane();
+        mlbTeamsText = new Text("   MLB Teams");
+        mlbTeamsText.setFont(Font.font("Verdana", 30));
+        mlbTeamsText.setFill(Color.RED);
+        mlbTeamsPane.setTop(mlbTeamsText);
+
+        wbPane.setCenter(mlbTeamsPane);
+        wbPane.setBottom(bottomToolbarPane);
         
       
     }
