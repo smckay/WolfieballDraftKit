@@ -43,6 +43,8 @@ import Controller.FileController;
 import javafx.scene.text.Text;
 import javafx.scene.text.*;
 import javafx.scene.paint.Color;
+import javafx.scene.control.TableView;
+
 /**
  *
  * @author sammckay
@@ -73,6 +75,8 @@ public class gui {
     BorderPane draftPane;
     BorderPane mlbTeamsPane;
     
+    BorderPane innerPlayersPane;
+    
     // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
     FlowPane topToolbarPane;
     Button newDraftButton;
@@ -91,6 +95,8 @@ public class gui {
     
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
+    
+    TableView playersTable;
     
     FileController filecontroller;
     
@@ -155,6 +161,31 @@ public class gui {
         playersText.setFont(Font.font("Verdana", 30));
         playersText.setFill(Color.RED);
         playersPane.setTop(playersText);
+        
+        innerPlayersPane = new BorderPane();
+        
+        playersTable = new TableView();
+        playersTable.setEditable(true);       
+       
+        TableColumn firstNameCol = new TableColumn("First");
+        TableColumn lastNameCol = new TableColumn("Last");
+        TableColumn teamCol = new TableColumn("Pro Team");
+        TableColumn positionsCol = new TableColumn("Positions");
+        TableColumn birthCol = new TableColumn("Year of Birth");
+        
+        TableColumn rwCol = new TableColumn("R/W");
+        TableColumn hrsvCol = new TableColumn("HR/SV");
+        TableColumn rbikCol = new TableColumn("RBI/K");
+        TableColumn sberaCol = new TableColumn("SB/ERA");
+        TableColumn bawhipCol = new TableColumn("BA/WHIP");
+        TableColumn estValCol = new TableColumn("Estimated Value");
+        TableColumn notesCol = new TableColumn("Notes");
+        
+        playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
+        
+        innerPlayersPane.setCenter(playersTable);
+       
+        playersPane.setCenter(innerPlayersPane);
 
         wbPane.setCenter(playersPane);
         wbPane.setBottom(bottomToolbarPane);
@@ -209,11 +240,11 @@ public class gui {
       
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-       newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, PropertyType.NEW_DRAFT_TOOLTIP, false);
-       loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, PropertyType.LOAD_DRAFT_TOOLTIP, false);
-       saveDraftButton = initChildButton(topToolbarPane, PropertyType.SAVE_DRAFT_ICON, PropertyType.SAVE_DRAFT_TOOLTIP, true);
-       exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, PropertyType.EXPORT_TOOLTIP, true);
-       exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, PropertyType.EXIT_TOOLTIP, false);
+       newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, "New Draft", false);
+       loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, "Load Draft", false);
+       saveDraftButton = initChildButton(topToolbarPane, PropertyType.SAVE_DRAFT_ICON, "Save Draft", true);
+       exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, "Export Draft", true);
+       exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, "Exit", false);
     };
     
     public void initBottomToolbar(){
@@ -221,11 +252,11 @@ public class gui {
       
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-       FantasyTeams = initChildButton(bottomToolbarPane, PropertyType.FANTASY_TEAMS_ICON, PropertyType.FANTASY_TEAMS_TOOLTIP, false);
-       Players = initChildButton(bottomToolbarPane, PropertyType.PLAYERS_ICON, PropertyType.PLAYERS_TOOLTIP, false);
-       FantasyStandings = initChildButton(bottomToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, PropertyType.FANTASY_STANDINGS_TOOLTIP, false);
-       Draft = initChildButton(bottomToolbarPane, PropertyType.DRAFT_ICON, PropertyType.DRAFT_TOOLTIP, false);
-       MLBTeams = initChildButton(bottomToolbarPane, PropertyType.MLBTEAMS_ICON, PropertyType.MLBTEAMS_TOOLTIP, false);
+       FantasyTeams = initChildButton(bottomToolbarPane, PropertyType.FANTASY_TEAMS_ICON, "Fantasy Teams Screen", false);
+       Players = initChildButton(bottomToolbarPane, PropertyType.PLAYERS_ICON, "Players Screen", false);
+       FantasyStandings = initChildButton(bottomToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, "Fantasy Standings Screen", false);
+       Draft = initChildButton(bottomToolbarPane, PropertyType.DRAFT_ICON, "Draft Screen", false);
+       MLBTeams = initChildButton(bottomToolbarPane, PropertyType.MLBTEAMS_ICON, "MLB Teams Screen", false);
     }
     
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
@@ -260,14 +291,14 @@ public class gui {
     }
     
     // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
-    private Button initChildButton(Pane toolbar, PropertyType icon, PropertyType tooltip, boolean disabled) {
+    private Button initChildButton(Pane toolbar, PropertyType icon, String tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         String imagePath = "file:" + StartupConstants.PATH_IMAGES + props.getProperty(icon.toString());
         Image buttonImage = new Image(imagePath);
         Button button = new Button();
         button.setDisable(disabled);
         button.setGraphic(new ImageView(buttonImage));
-        Tooltip buttonTooltip = new Tooltip(props.getProperty(tooltip.toString()));
+        Tooltip buttonTooltip = new Tooltip(tooltip);
         button.setTooltip(buttonTooltip);
         toolbar.getChildren().add(button);
         return button;
