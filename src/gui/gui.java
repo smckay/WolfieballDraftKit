@@ -40,6 +40,9 @@ import properties_manager.PropertiesManager;
 import wolfieballdraftkit.PropertyType;
 import wolfieballdraftkit.StartupConstants;
 import Controller.FileController;
+import javafx.scene.text.Text;
+import javafx.scene.text.*;
+import javafx.scene.paint.Color;
 /**
  *
  * @author sammckay
@@ -52,13 +55,19 @@ public class gui {
      // THIS IS THE STAGE'S SCENE GRAPH
     Scene primaryScene;
     
+    Text fantasyTeamsText;
+    
     // THESE PANES ORGANIZE THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
+    BorderPane wbPane;
+    
+    BorderPane outerPane;
+    
     BorderPane fantasyTeamsPane;
     BorderPane playersPane;
-    BorderPane fantasyStandingsPane;
-    BorderPane draftPane;
-    BorderPane mlbTeamsPane;
+    VBox fantasyStandingsBox;
+    VBox draftBox;
+    VBox mlbTeamsBox;
     
     boolean fantasyTeamsSpaceActivated;
     boolean playersSpaceActivated;
@@ -96,6 +105,8 @@ public class gui {
     
             initTopToolbar();
             
+            initBottomToolbar();
+            
             initEventHandlers();
             
             initWindow("Wolfieball");
@@ -110,8 +121,16 @@ public class gui {
     
     };
     
-    public void initPlayerScreen(){
-        workspacePane = new BorderPane();
+    public void initFantasyTeamsScreen(){
+
+        fantasyTeamsPane = new BorderPane();
+        fantasyTeamsText = new Text("   Fantasy Teams");
+        fantasyTeamsText.setFont(Font.font("Verdana", 30));
+        fantasyTeamsText.setFill(Color.RED);
+        fantasyTeamsPane.setTop(fantasyTeamsText);
+
+        wbPane.setCenter(fantasyTeamsPane);
+        
       
     }
     
@@ -132,11 +151,11 @@ public class gui {
       
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
-       FantasyTeams = initChildButton(topToolbarPane, PropertyType.FANTASY_TEAMS_ICON, PropertyType.FANTASY_TEAMS_TOOLTIP, false);
-       Players = initChildButton(topToolbarPane, PropertyType.PLAYERS_ICON, PropertyType.PLAYERS_TOOLTIP, false);
-       FantasyStandings = initChildButton(topToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, PropertyType.FANTASY_STANDINGS_TOOLTIP, false);
-       Draft = initChildButton(topToolbarPane, PropertyType.DRAFT_ICON, PropertyType.DRAFT_TOOLTIP, false);
-       MLBTeams = initChildButton(topToolbarPane, PropertyType.MLBTEAMS_ICON, PropertyType.MLBTEAMS_TOOLTIP, false);
+       FantasyTeams = initChildButton(bottomToolbarPane, PropertyType.FANTASY_TEAMS_ICON, PropertyType.FANTASY_TEAMS_TOOLTIP, false);
+       Players = initChildButton(bottomToolbarPane, PropertyType.PLAYERS_ICON, PropertyType.PLAYERS_TOOLTIP, false);
+       FantasyStandings = initChildButton(bottomToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, PropertyType.FANTASY_STANDINGS_TOOLTIP, false);
+       Draft = initChildButton(bottomToolbarPane, PropertyType.DRAFT_ICON, PropertyType.DRAFT_TOOLTIP, false);
+       MLBTeams = initChildButton(bottomToolbarPane, PropertyType.MLBTEAMS_ICON, PropertyType.MLBTEAMS_TOOLTIP, false);
     }
     
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
