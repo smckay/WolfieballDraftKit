@@ -44,6 +44,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.*;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TableView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  *
@@ -145,7 +147,7 @@ public class gui {
         fantasyTeamsPane = new BorderPane();
         fantasyTeamsText = new Text("   Fantasy Teams");
         fantasyTeamsText.setFont(Font.font("Verdana", 30));
-        fantasyTeamsText.setFill(Color.RED);
+
         fantasyTeamsPane.setTop(fantasyTeamsText);
 
         wbPane.setCenter(fantasyTeamsPane);
@@ -159,8 +161,6 @@ public class gui {
         playersPane = new BorderPane();
         playersText = new Text("   Available Players");
         playersText.setFont(Font.font("Verdana", 30));
-        playersText.setFill(Color.RED);
-        playersPane.setTop(playersText);
         
         innerPlayersPane = new BorderPane();
         
@@ -183,6 +183,61 @@ public class gui {
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
         
+        HBox box = new HBox();
+        
+        ToggleGroup group = new ToggleGroup();
+        
+        RadioButton all = new RadioButton("All  ");
+        all.setToggleGroup(group);
+        all.setSelected(true);
+        
+        RadioButton c = new RadioButton("C  ");
+        c.setToggleGroup(group);
+        
+        RadioButton b1 = new RadioButton("1B  ");
+        b1.setToggleGroup(group);
+        
+        RadioButton cl = new RadioButton("Cl  ");
+        cl.setToggleGroup(group);
+        
+        RadioButton b3 = new RadioButton("3B  ");
+        b3.setToggleGroup(group);
+        
+        RadioButton b2 = new RadioButton("2B  ");
+        b2.setToggleGroup(group);
+        
+        RadioButton mi = new RadioButton("MI  ");
+        mi.setToggleGroup(group);
+        
+        RadioButton ss = new RadioButton("SS  ");
+        ss.setToggleGroup(group);
+        
+        RadioButton of = new RadioButton("OF  ");
+        of.setToggleGroup(group);
+        
+        RadioButton u = new RadioButton("U  ");
+        u.setToggleGroup(group);
+        
+        RadioButton p = new RadioButton("P  ");
+        p.setToggleGroup(group);
+
+        box.getChildren().addAll(all, c, b1, cl, b3, b2, mi, ss, of, u, p);
+        
+        box.setStyle("-fx-background-color: #336699;");
+        
+        VBox vbox = new VBox();
+        HBox innerBox = new HBox();
+        Label search = new Label("Search:");
+        TextField text = new TextField();
+        
+        Button add = new Button();
+        Button remove = new Button();
+        
+        innerBox.getChildren().addAll(add, remove, search, text);
+        
+        vbox.getChildren().addAll(playersText, innerBox, box);
+        
+        innerPlayersPane.setTop(vbox);
         innerPlayersPane.setCenter(playersTable);
        
         playersPane.setCenter(innerPlayersPane);
@@ -198,7 +253,7 @@ public class gui {
         fantasyStandingsPane = new BorderPane();
         fantasyStandingsText = new Text("   Fantasy Standings");
         fantasyStandingsText.setFont(Font.font("Verdana", 30));
-        fantasyStandingsText.setFill(Color.RED);
+
         fantasyStandingsPane.setTop(fantasyStandingsText);
 
         wbPane.setCenter(fantasyStandingsPane);
@@ -212,7 +267,7 @@ public class gui {
         draftPane = new BorderPane();
         draftText = new Text("   Draft Summary");
         draftText.setFont(Font.font("Verdana", 30));
-        draftText.setFill(Color.RED);
+
         draftPane.setTop(draftText);
 
         wbPane.setCenter(draftPane);
@@ -226,7 +281,7 @@ public class gui {
         mlbTeamsPane = new BorderPane();
         mlbTeamsText = new Text("   MLB Teams");
         mlbTeamsText.setFont(Font.font("Verdana", 30));
-        mlbTeamsText.setFill(Color.RED);
+
         mlbTeamsPane.setTop(mlbTeamsText);
 
         wbPane.setCenter(mlbTeamsPane);
@@ -288,6 +343,8 @@ public class gui {
         //primaryScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
         primaryStage.setScene(primaryScene);
         primaryStage.show();
+        
+        wbPane.setStyle("-fx-background-color: #336699;");
     }
     
     // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
