@@ -350,10 +350,15 @@ public class gui {
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
        newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, "New Draft", false);
+       newDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/TwBqWEz.png")));
        loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, "Load Draft", false);
+       loadDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/yxqC6p4.png")));
        saveDraftButton = initChildButton(topToolbarPane, PropertyType.SAVE_DRAFT_ICON, "Save Draft", true);
+       saveDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/M3E4nZI.png")));
        exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, "Export Draft", true);
+       exportButton.setGraphic(new ImageView(new Image("http://i.imgur.com/TjKMbbm.png")));
        exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, "Exit", false);
+       exitButton.setGraphic(new ImageView(new Image("http://i.imgur.com/SJMXrgt.png"))); 
     };
     
     public void initBottomToolbar(){
