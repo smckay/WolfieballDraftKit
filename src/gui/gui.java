@@ -95,6 +95,18 @@ public class gui {
     Button Draft;
     Button MLBTeams;
     
+    RadioButton all;
+    RadioButton c;
+    RadioButton b1;
+    RadioButton cl;
+    RadioButton b3;
+    RadioButton b2;
+    RadioButton mi;
+    RadioButton ss;
+    RadioButton of;
+    RadioButton u;
+    RadioButton p;
+    
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
     
@@ -139,6 +151,40 @@ public class gui {
         MLBTeams.setOnAction(e -> {
             initMlbTeamsScreen();
         });
+     /*
+        all.setOnAction(e->{
+            updateTable("all");
+        });
+        c.setOnAction(e->{
+            updateTable("c");
+        });
+        b1.setOnAction(e->{
+            updateTable("b1");
+        });
+        cl.setOnAction(e->{
+            updateTable("cl");
+        });
+        b3.setOnAction(e->{
+            updateTable("b3");
+        });
+        b2.setOnAction(e->{
+            updateTable("b2");
+        });
+        mi.setOnAction(e->{
+            updateTable("mi");
+        });
+        ss.setOnAction(e->{
+            updateTable("ss");
+        });
+        of.setOnAction(e->{
+            updateTable("of");
+        });
+        u.setOnAction(e->{
+            updateTable("u");
+        });
+        p.setOnAction(e->{
+            updateTable("p");
+        });*/
     
     };
     
@@ -159,7 +205,7 @@ public class gui {
     public void initPlayersScreen(){
 
         playersPane = new BorderPane();
-        playersText = new Text("   Available Players");
+        playersText = new Text("Available Players");
         playersText.setFont(Font.font("Verdana", 30));
         
         innerPlayersPane = new BorderPane();
@@ -187,38 +233,38 @@ public class gui {
         
         ToggleGroup group = new ToggleGroup();
         
-        RadioButton all = new RadioButton("All  ");
+        all = new RadioButton("All  ");
         all.setToggleGroup(group);
         all.setSelected(true);
         
-        RadioButton c = new RadioButton("C  ");
+        c = new RadioButton("C  ");
         c.setToggleGroup(group);
         
-        RadioButton b1 = new RadioButton("1B  ");
+        b1 = new RadioButton("1B  ");
         b1.setToggleGroup(group);
         
-        RadioButton cl = new RadioButton("Cl  ");
+        cl = new RadioButton("Cl  ");
         cl.setToggleGroup(group);
         
-        RadioButton b3 = new RadioButton("3B  ");
+        b3 = new RadioButton("3B  ");
         b3.setToggleGroup(group);
         
-        RadioButton b2 = new RadioButton("2B  ");
+        b2 = new RadioButton("2B  ");
         b2.setToggleGroup(group);
         
-        RadioButton mi = new RadioButton("MI  ");
+        mi = new RadioButton("MI  ");
         mi.setToggleGroup(group);
         
-        RadioButton ss = new RadioButton("SS  ");
+        ss = new RadioButton("SS  ");
         ss.setToggleGroup(group);
         
-        RadioButton of = new RadioButton("OF  ");
+        of = new RadioButton("OF  ");
         of.setToggleGroup(group);
         
-        RadioButton u = new RadioButton("U  ");
+        u = new RadioButton("U  ");
         u.setToggleGroup(group);
         
-        RadioButton p = new RadioButton("P  ");
+        p = new RadioButton("P  ");
         p.setToggleGroup(group);
 
         box.getChildren().addAll(all, c, b1, cl, b3, b2, mi, ss, of, u, p);
@@ -227,11 +273,19 @@ public class gui {
         
         VBox vbox = new VBox();
         HBox innerBox = new HBox();
-        Label search = new Label("Search:");
+        Label search = new Label("        Search:");
+        search.setFont(Font.font("Verdana", 15));
+        
         TextField text = new TextField();
         
         Button add = new Button();
         Button remove = new Button();
+        
+        Tooltip addTip = new Tooltip("Add");
+        Tooltip removeTip = new Tooltip("Remove");
+        
+        add.setTooltip(addTip);
+        remove.setTooltip(removeTip);
         
         innerBox.getChildren().addAll(add, remove, search, text);
         
@@ -374,7 +428,174 @@ public class gui {
         // NOTE THAT THE NEW, LOAD, AND EXIT BUTTONS
         // ARE NEVER DISABLED SO WE NEVER HAVE TO TOUCH THEM
     }
+    
+     public void updateTable(String radioButton){
+     /*
+    RadioButton all;
+    RadioButton c;
+    RadioButton b1;
+    RadioButton cl;
+    RadioButton b3;
+    RadioButton b2;
+    RadioButton mi;
+    RadioButton ss;
+    RadioButton of;
+    RadioButton u;
+    RadioButton p;
+        */
+         if(radioButton.equals("all")){
+            TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+        
+            TableColumn rwCol = new TableColumn("R/W");
+            TableColumn hrsvCol = new TableColumn("HR/SV");
+            TableColumn rbikCol = new TableColumn("RBI/K");
+            TableColumn sberaCol = new TableColumn("SB/ERA");
+            TableColumn bawhipCol = new TableColumn("BA/WHIP");
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+        
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("c")){
+            TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("b1")){
+             TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("cl")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+             
+         }
+         else if(radioButton.equals("b3")){
+         
+              TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("b2")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("mi")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("ss")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("of")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else if(radioButton.equals("u")){
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
+         else{
+          TableColumn firstNameCol = new TableColumn("First");
+            TableColumn lastNameCol = new TableColumn("Last");
+            TableColumn teamCol = new TableColumn("Pro Team");
+            TableColumn positionsCol = new TableColumn("Positions");
+            TableColumn birthCol = new TableColumn("Year of Birth");
+             
+            TableColumn estValCol = new TableColumn("Estimated Value");
+            TableColumn notesCol = new TableColumn("Notes");
+            playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, estValCol, notesCol);
+            
+            innerPlayersPane.setCenter(playersTable);
+         }
      
+     };
   
     
 }
