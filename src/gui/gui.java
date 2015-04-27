@@ -59,6 +59,8 @@ public class gui {
      // THIS IS THE STAGE'S SCENE GRAPH
     Scene primaryScene;
     
+    GridPane ex;
+    
     Text fantasyTeamsText;
     Text playersText;
     Text fantasyStandingsText;
@@ -111,6 +113,7 @@ public class gui {
     BorderPane workspacePane;
     
     TableView playersTable;
+    TableView teamsTable;
     
     FileController filecontroller;
     
@@ -195,7 +198,53 @@ public class gui {
         fantasyTeamsText.setFont(Font.font("Verdana", 30));
 
         fantasyTeamsPane.setTop(fantasyTeamsText);
+        
+        teamsTable = new TableView();
+        teamsTable.setEditable(true);       
+       
+        TableColumn posCol = new TableColumn("Position");
+        posCol.setEditable(false); 
+        
+        TableColumn firstNameCol = new TableColumn("First");
+        firstNameCol.setEditable(false);
+        
+        TableColumn lastNameCol = new TableColumn("Last");
+        lastNameCol.setEditable(false);
+        
+        TableColumn proTeamCol = new TableColumn("Pro Team");
+        proTeamCol.setEditable(false);
+        
+        TableColumn positionsCol = new TableColumn("Positions");
+        positionsCol.setEditable(false);
+        
+        TableColumn rwCol = new TableColumn("R/W");
+        rwCol.setEditable(false);
+        
+        TableColumn hrsvCol = new TableColumn("HR/SV");
+        hrsvCol.setEditable(false);
+        
+        TableColumn rbikCol = new TableColumn("RB/IK");
+        rbikCol.setEditable(false);
+        
+        TableColumn sberaCol = new TableColumn("SB/ERA");
+        sberaCol.setEditable(false);
+        
+        TableColumn bawhipCol = new TableColumn("BA/WHIP");
+        bawhipCol.setEditable(false);
+        
+        TableColumn estCol = new TableColumn("Estimated...");
+        estCol.setEditable(false);
+        
+        TableColumn contractCol = new TableColumn("Contract");
+        contractCol.setEditable(false);
+        
+        TableColumn salCol = new TableColumn("Salary");
+        salCol.setEditable(false);
 
+        teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, salCol);
+        
+        fantasyTeamsPane.setCenter(teamsTable);
+        
         wbPane.setCenter(fantasyTeamsPane);
         wbPane.setBottom(bottomToolbarPane);
         
@@ -214,20 +263,44 @@ public class gui {
         playersTable.setEditable(true);       
        
         TableColumn firstNameCol = new TableColumn("First");
+        firstNameCol.setEditable(false);
+        
         TableColumn lastNameCol = new TableColumn("Last");
+        lastNameCol.setEditable(false);
+        
         TableColumn teamCol = new TableColumn("Pro Team");
+        teamCol.setEditable(false);
+        
         TableColumn positionsCol = new TableColumn("Positions");
+        positionsCol.setEditable(false);
+        
         TableColumn birthCol = new TableColumn("Year of Birth");
+        birthCol.setEditable(false);
         
         TableColumn rwCol = new TableColumn("R/W");
+        rwCol.setEditable(false);
+        
         TableColumn hrsvCol = new TableColumn("HR/SV");
+        hrsvCol.setEditable(false);
+        
         TableColumn rbikCol = new TableColumn("RBI/K");
+        rbikCol.setEditable(false);
+        
         TableColumn sberaCol = new TableColumn("SB/ERA");
+        sberaCol.setEditable(false);
+        
         TableColumn bawhipCol = new TableColumn("BA/WHIP");
+        bawhipCol.setEditable(false);
+        
         TableColumn estValCol = new TableColumn("Estimated Value");
+        estValCol.setEditable(false);
+        
         TableColumn notesCol = new TableColumn("Notes");
+        notesCol.setEditable(true);
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
+        
+        
         
         HBox box = new HBox();
         
@@ -281,6 +354,9 @@ public class gui {
         Button add = new Button();
         Button remove = new Button();
         
+        add.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
+        remove.setGraphic(new ImageView(new Image("http://i.imgur.com/DLdvGei.png"))); 
+        
         Tooltip addTip = new Tooltip("Add");
         Tooltip removeTip = new Tooltip("Remove");
         
@@ -289,7 +365,13 @@ public class gui {
         
         innerBox.getChildren().addAll(add, remove, search, text);
         
+        ex = new GridPane();
+        ex.setStyle("-fx-background-color: #FF0000;");
+       
+        
         vbox.getChildren().addAll(playersText, innerBox, box);
+        
+        ex.getChildren().addAll(vbox);
         
         innerPlayersPane.setTop(vbox);
         innerPlayersPane.setCenter(playersTable);
@@ -349,6 +431,7 @@ public class gui {
       
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
+       
        newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, "New Draft", false);
        newDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/TwBqWEz.png")));
        loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, "Load Draft", false);
@@ -367,10 +450,15 @@ public class gui {
        // HERE ARE OUR FILE TOOLBAR BUTTONS, NOTE THAT SOME WILL
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
        FantasyTeams = initChildButton(bottomToolbarPane, PropertyType.FANTASY_TEAMS_ICON, "Fantasy Teams Screen", false);
+       FantasyTeams.setGraphic(new ImageView(new Image("http://i.imgur.com/lKhcJJ9.png")));
        Players = initChildButton(bottomToolbarPane, PropertyType.PLAYERS_ICON, "Players Screen", false);
+       Players.setGraphic(new ImageView(new Image("http://i.imgur.com/7gwUSia.png")));
        FantasyStandings = initChildButton(bottomToolbarPane, PropertyType.FANTASY_STANDINGS_ICON, "Fantasy Standings Screen", false);
+       FantasyStandings.setGraphic(new ImageView(new Image("http://i.imgur.com/N8E5XDf.png")));
        Draft = initChildButton(bottomToolbarPane, PropertyType.DRAFT_ICON, "Draft Screen", false);
+       Draft.setGraphic(new ImageView(new Image("http://i.imgur.com/1GfRp9a.png")));
        MLBTeams = initChildButton(bottomToolbarPane, PropertyType.MLBTEAMS_ICON, "MLB Teams Screen", false);
+       MLBTeams.setGraphic(new ImageView(new Image("http://i.imgur.com/YIZrqJd.png")));
     }
     
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS
