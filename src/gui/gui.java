@@ -111,11 +111,13 @@ public class gui {
     
     ComboBox selectTeams;
     
-     Button fAdd ;
-     Button fRemove;
-     Button fEdit;
-     HBox fInnerBox; 
-     VBox fVbox;
+    //fantasyTeamsPane components
+
+    Button fAdd ;
+    Button fRemove;
+    Button fEdit;
+    HBox fInnerBox; 
+    VBox fVbox;
     
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
@@ -125,6 +127,7 @@ public class gui {
     
     FileController filecontroller;
     MessageDialog messageDialog;
+    AddFantasyTeamDialog addFantasyTeamDialog;
     
     
     public gui(Stage initPrimaryStage) {
@@ -139,9 +142,11 @@ public class gui {
             
             initBottomToolbar();
             
-            initEventHandlers();
-            
             initWindow("Wolfieball");
+            
+            initFantasyTeamsScreen();
+            
+            initEventHandlers();
         
     }
     
@@ -149,9 +154,12 @@ public class gui {
         filecontroller = new FileController(messageDialog);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
+            wbPane.setCenter(fantasyTeamsPane);
+            wbPane.setBottom(bottomToolbarPane);
         });
         FantasyTeams.setOnAction(e -> {
-            initFantasyTeamsScreen();
+            wbPane.setCenter(fantasyTeamsPane);
+            wbPane.setBottom(bottomToolbarPane);
         });
         Players.setOnAction(e -> {
             initPlayersScreen();
@@ -165,41 +173,9 @@ public class gui {
         MLBTeams.setOnAction(e -> {
             initMlbTeamsScreen();
         });
-     
-        /*all.setOnAction(e->{
-            System.out.println("Check");
+        fAdd.setOnAction(e -> {
+            System.out.println("Add");
         });
-        c.setOnAction(e->{
-            updateTable("c");
-        });
-        b1.setOnAction(e->{
-            updateTable("b1");
-        });
-        cl.setOnAction(e->{
-            updateTable("cl");
-        });
-        b3.setOnAction(e->{
-            updateTable("b3");
-        });
-        b2.setOnAction(e->{
-            updateTable("b2");
-        });
-        mi.setOnAction(e->{
-            updateTable("mi");
-        });
-        ss.setOnAction(e->{
-            updateTable("ss");
-        });
-        of.setOnAction(e->{
-            updateTable("of");
-        });
-        u.setOnAction(e->{
-            updateTable("u");
-        });
-        p.setOnAction(e->{
-            updateTable("p");
-        });*/
-    
     };
     
     public void initFantasyTeamsScreen(){
@@ -288,22 +264,18 @@ public class gui {
         fEdit.setTooltip(editTip);
         
         fInnerBox.getChildren().addAll(fAdd, fRemove, fEdit, draftName, text, select, selectTeams);
-        
-        ex = new GridPane();
-        ex.setStyle("-fx-background-color: #FF0000;");
-       
+
         
         fVbox.getChildren().addAll(fantasyTeamsText, fInnerBox);
         
-        ex.getChildren().addAll(fVbox);
         
         fantasyTeamsPane.setTop(fVbox);
         
         //ADDING IT ALL TO THE SCREEN
-        wbPane.setCenter(fantasyTeamsPane);
-        wbPane.setBottom(bottomToolbarPane);
+        //wbPane.setCenter(fantasyTeamsPane);
+        //wbPane.setBottom(bottomToolbarPane);
         
-       
+         
       
     }
     
