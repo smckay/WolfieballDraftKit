@@ -109,6 +109,14 @@ public class gui {
     RadioButton u;
     RadioButton p;
     
+    ComboBox selectTeams;
+    
+     Button fAdd ;
+     Button fRemove;
+     Button fEdit;
+     HBox fInnerBox; 
+     VBox fVbox;
+    
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
     
@@ -116,6 +124,7 @@ public class gui {
     TableView teamsTable;
     
     FileController filecontroller;
+    MessageDialog messageDialog;
     
     
     public gui(Stage initPrimaryStage) {
@@ -124,6 +133,8 @@ public class gui {
  
     public void initGui(){
     
+            initDialogs();
+        
             initTopToolbar();
             
             initBottomToolbar();
@@ -135,7 +146,7 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        filecontroller = new FileController();
+        filecontroller = new FileController(messageDialog);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
         });
@@ -154,9 +165,9 @@ public class gui {
         MLBTeams.setOnAction(e -> {
             initMlbTeamsScreen();
         });
-     /*
-        all.setOnAction(e->{
-            updateTable("all");
+     
+        /*all.setOnAction(e->{
+            System.out.println("Check");
         });
         c.setOnAction(e->{
             updateTable("c");
@@ -194,14 +205,14 @@ public class gui {
     public void initFantasyTeamsScreen(){
 
         fantasyTeamsPane = new BorderPane();
-        fantasyTeamsText = new Text("   Fantasy Teams");
+        fantasyTeamsText = new Text("Fantasy Teams");
         fantasyTeamsText.setFont(Font.font("Verdana", 30));
 
-        fantasyTeamsPane.setTop(fantasyTeamsText);
         
         teamsTable = new TableView();
         teamsTable.setEditable(true);       
-       
+        
+        //INITIALIZING TABLE COLUMNS
         TableColumn posCol = new TableColumn("Position");
         posCol.setEditable(false); 
         
@@ -243,11 +254,56 @@ public class gui {
 
         teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, salCol);
         
+        //ADDING TABLE
         fantasyTeamsPane.setCenter(teamsTable);
         
+        //CREATING COMPONENTS FOR TOP OF FANTASYTEAMSSCREEN
+        fVbox = new VBox();
+        fInnerBox = new HBox();
+        Label draftName = new Label("Draft Name:");
+        draftName.setFont(Font.font("Verdana", 15));
+        
+        Label select = new Label("Select Fantasy Team");
+        select.setFont(Font.font("Verdana", 15));
+        
+        selectTeams = new ComboBox();
+        
+        TextField text = new TextField();
+        
+        fAdd = new Button();
+        fRemove = new Button();
+        fEdit = new Button();
+        
+        
+        fAdd.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
+        fRemove.setGraphic(new ImageView(new Image("http://i.imgur.com/DLdvGei.png"))); 
+        fEdit.setGraphic(new ImageView(new Image("http://i.imgur.com/rwBzWmk.png"))); 
+        
+        Tooltip addTip = new Tooltip("Add");
+        Tooltip removeTip = new Tooltip("Remove");
+        Tooltip editTip = new Tooltip("Edit Player");
+        
+        fAdd.setTooltip(addTip);
+        fRemove.setTooltip(removeTip);
+        fEdit.setTooltip(editTip);
+        
+        fInnerBox.getChildren().addAll(fAdd, fRemove, fEdit, draftName, text, select, selectTeams);
+        
+        ex = new GridPane();
+        ex.setStyle("-fx-background-color: #FF0000;");
+       
+        
+        fVbox.getChildren().addAll(fantasyTeamsText, fInnerBox);
+        
+        ex.getChildren().addAll(fVbox);
+        
+        fantasyTeamsPane.setTop(fVbox);
+        
+        //ADDING IT ALL TO THE SCREEN
         wbPane.setCenter(fantasyTeamsPane);
         wbPane.setBottom(bottomToolbarPane);
         
+       
       
     }
     
@@ -690,5 +746,9 @@ public class gui {
      
      };
   
+     
+     private void initDialogs() {
+        messageDialog = new MessageDialog(primaryStage, "Close");
+    }
     
 }
