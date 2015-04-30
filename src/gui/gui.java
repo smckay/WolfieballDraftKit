@@ -121,6 +121,7 @@ public class gui {
     
     //players screen components
     HBox pBox;
+    Button pAdd;
     
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
@@ -131,6 +132,7 @@ public class gui {
     FileController filecontroller;
     MessageDialog messageDialog;
     AddFantasyTeamDialog addFantasyTeamDialog;
+    AddNewPlayerDialog addNewPlayerDialog;
     
     
     public gui(Stage initPrimaryStage) {
@@ -156,7 +158,7 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        filecontroller = new FileController(messageDialog, addFantasyTeamDialog);
+        filecontroller = new FileController(messageDialog, addFantasyTeamDialog, addNewPlayerDialog);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
             wbPane.setCenter(fantasyTeamsPane);
@@ -182,8 +184,8 @@ public class gui {
         fAdd.setOnAction(e -> {
             filecontroller.handleAddTeamRequest(this);
         });
-        all.setOnAction(e -> {
-            System.out.println("420blazeit");
+        pAdd.setOnAction(e -> {
+            filecontroller.handleAddNewPlayerRequest(this);
         });
         
     };
@@ -389,19 +391,19 @@ public class gui {
         
         TextField text = new TextField();
         
-        Button add = new Button();
+        pAdd = new Button();
         Button remove = new Button();
         
-        add.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
+        pAdd.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
         remove.setGraphic(new ImageView(new Image("http://i.imgur.com/DLdvGei.png"))); 
         
         Tooltip addTip = new Tooltip("Add");
         Tooltip removeTip = new Tooltip("Remove");
         
-        add.setTooltip(addTip);
+        pAdd.setTooltip(addTip);
         remove.setTooltip(removeTip);
         
-        innerBox.getChildren().addAll(add, remove, search, text);
+        innerBox.getChildren().addAll(pAdd, remove, search, text);
         
         ex = new GridPane();
         ex.setStyle("-fx-background-color: #FF0000;");
@@ -732,6 +734,7 @@ public class gui {
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, "Close");
         addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "");
+        addNewPlayerDialog = new AddNewPlayerDialog(primaryStage);
     }
     
 }
