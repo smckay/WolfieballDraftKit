@@ -18,6 +18,9 @@ import javafx.scene.control.TextField;
  *
  * @author sammckay
  */
+
+//#pullsumoeatbutt
+
 public class AddFantasyTeamDialog extends Stage{
     Label messageLabel;
     VBox messagePane;
@@ -42,6 +45,7 @@ public class AddFantasyTeamDialog extends Stage{
     // MAKE IT MODAL
         initModality(Modality.WINDOW_MODAL);
         initOwner(owner);
+        
         
         messageLabel = new Label("Fantasy Team Details");
               
