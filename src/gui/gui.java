@@ -188,6 +188,7 @@ public class gui {
             filecontroller.handleAddNewPlayerRequest(this);
         });
         
+        
     };
     
     public void initFantasyTeamsScreen(){
@@ -394,8 +395,8 @@ public class gui {
         pAdd = new Button();
         Button remove = new Button();
         
-        pAdd.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
-        remove.setGraphic(new ImageView(new Image("http://i.imgur.com/DLdvGei.png"))); 
+        pAdd.setGraphic(new ImageView(new Image("file:./images/Add.png"))); 
+        remove.setGraphic(new ImageView(new Image("file:./images/DeleteScheduleItem.png"))); 
         
         Tooltip addTip = new Tooltip("Add");
         Tooltip removeTip = new Tooltip("Remove");
