@@ -151,7 +151,7 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        filecontroller = new FileController(messageDialog);
+        filecontroller = new FileController(messageDialog, addFantasyTeamDialog);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
             wbPane.setCenter(fantasyTeamsPane);
@@ -174,7 +174,7 @@ public class gui {
             initMlbTeamsScreen();
         });
         fAdd.setOnAction(e -> {
-            System.out.println("Add");
+            filecontroller.handleAddTeamRequest(this);
         });
     };
     
@@ -461,15 +461,15 @@ public class gui {
        // START AS ENABLED (false), WHILE OTHERS DISABLED (true)
        
        newDraftButton = initChildButton(topToolbarPane, PropertyType.NEW_DRAFT_ICON, "New Draft", false);
-       newDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/TwBqWEz.png")));
+       newDraftButton.setGraphic(new ImageView(new Image("file:./images/New.png")));
        loadDraftButton = initChildButton(topToolbarPane, PropertyType.LOAD_DRAFT_ICON, "Load Draft", false);
-       loadDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/yxqC6p4.png")));
+       loadDraftButton.setGraphic(new ImageView(new Image("file:./images/Load.png")));
        saveDraftButton = initChildButton(topToolbarPane, PropertyType.SAVE_DRAFT_ICON, "Save Draft", true);
-       saveDraftButton.setGraphic(new ImageView(new Image("http://i.imgur.com/M3E4nZI.png")));
+       saveDraftButton.setGraphic(new ImageView(new Image("file:./images/Save.png")));
        exportButton = initChildButton(topToolbarPane, PropertyType.EXPORT_ICON, "Export Draft", true);
-       exportButton.setGraphic(new ImageView(new Image("http://i.imgur.com/TjKMbbm.png")));
+       exportButton.setGraphic(new ImageView(new Image("file:./images/Export.png")));
        exitButton = initChildButton(topToolbarPane, PropertyType.EXIT_ICON, "Exit", false);
-       exitButton.setGraphic(new ImageView(new Image("http://i.imgur.com/SJMXrgt.png"))); 
+       exitButton.setGraphic(new ImageView(new Image("file:./images/Exit.png"))); 
     };
     
     public void initBottomToolbar(){
@@ -721,6 +721,7 @@ public class gui {
      
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, "Close");
+        addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "");
     }
     
 }
