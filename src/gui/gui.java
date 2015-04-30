@@ -119,6 +119,9 @@ public class gui {
     HBox fInnerBox; 
     VBox fVbox;
     
+    //players screen components
+    HBox pBox;
+    
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
     
@@ -146,6 +149,8 @@ public class gui {
             
             initFantasyTeamsScreen();
             
+            initPlayersScreen();
+            
             initEventHandlers();
         
     }
@@ -162,7 +167,8 @@ public class gui {
             wbPane.setBottom(bottomToolbarPane);
         });
         Players.setOnAction(e -> {
-            initPlayersScreen();
+            wbPane.setCenter(playersPane);
+            wbPane.setBottom(bottomToolbarPane);
         });
         FantasyStandings.setOnAction(e -> {
             initFantasyStandingsScreen();
@@ -176,6 +182,10 @@ public class gui {
         fAdd.setOnAction(e -> {
             filecontroller.handleAddTeamRequest(this);
         });
+        all.setOnAction(e -> {
+            System.out.println("420blazeit");
+        });
+        
     };
     
     public void initFantasyTeamsScreen(){
@@ -251,9 +261,9 @@ public class gui {
         fEdit = new Button();
         
         
-        fAdd.setGraphic(new ImageView(new Image("http://i.imgur.com/DfwJrWs.png"))); 
-        fRemove.setGraphic(new ImageView(new Image("http://i.imgur.com/DLdvGei.png"))); 
-        fEdit.setGraphic(new ImageView(new Image("http://i.imgur.com/rwBzWmk.png"))); 
+        fAdd.setGraphic(new ImageView(new Image("file:./images/Add.png"))); 
+        fRemove.setGraphic(new ImageView(new Image("file:./images/DeleteScheduleItem.png"))); 
+        fEdit.setGraphic(new ImageView(new Image("file:./images/EditScheduleItem.png"))); 
         
         Tooltip addTip = new Tooltip("Add");
         Tooltip removeTip = new Tooltip("Remove");
@@ -330,7 +340,7 @@ public class gui {
         
         
         
-        HBox box = new HBox();
+        pBox = new HBox();
         
         ToggleGroup group = new ToggleGroup();
         
@@ -368,9 +378,9 @@ public class gui {
         p = new RadioButton("P  ");
         p.setToggleGroup(group);
 
-        box.getChildren().addAll(all, c, b1, cl, b3, b2, mi, ss, of, u, p);
+        pBox.getChildren().addAll(all, c, b1, cl, b3, b2, mi, ss, of, u, p);
         
-        box.setStyle("-fx-background-color: #336699;");
+        pBox.setStyle("-fx-background-color: #336699;");
         
         VBox vbox = new VBox();
         HBox innerBox = new HBox();
@@ -397,7 +407,7 @@ public class gui {
         ex.setStyle("-fx-background-color: #FF0000;");
        
         
-        vbox.getChildren().addAll(playersText, innerBox, box);
+        vbox.getChildren().addAll(playersText, innerBox, pBox);
         
         ex.getChildren().addAll(vbox);
         
@@ -406,8 +416,8 @@ public class gui {
        
         playersPane.setCenter(innerPlayersPane);
 
-        wbPane.setCenter(playersPane);
-        wbPane.setBottom(bottomToolbarPane);
+        //wbPane.setCenter(playersPane);
+        //wbPane.setBottom(bottomToolbarPane);
         
       
     }
