@@ -7,23 +7,26 @@ package Test;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import gui.AddFantasyTeamDialog;
+import gui.EditPlayerDialog;
 import static javafx.application.Application.launch;
+import file.JsonFileManager;
+import java.util.ArrayList;
+import data.Hitter;
 
 /**
  *
  * @author sammckay
  */
-public class TestAddFantasyTeamDialog extends Application{
+public class TestAddFantasyTeamDialog{
     
-    public void start(Stage primaryStage) throws Exception {
 
-        AddFantasyTeamDialog testDialog = new AddFantasyTeamDialog(primaryStage, "Complete");
-        testDialog.show();
-    }
     
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws Exception{
+        JsonFileManager j = new JsonFileManager();
+        ArrayList<Hitter> hitters = j.loadHitters("./data/Hitters.json");
+        
+
+        
     }
     
 }
