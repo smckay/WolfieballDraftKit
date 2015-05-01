@@ -12,6 +12,7 @@ import static javafx.application.Application.launch;
 import file.JsonFileManager;
 import java.util.ArrayList;
 import data.Hitter;
+import data.Pitcher;
 
 /**
  *
@@ -23,8 +24,10 @@ public class TestAddFantasyTeamDialog{
     
     public static void main(String[] args) throws Exception{
         JsonFileManager j = new JsonFileManager();
-        ArrayList<Hitter> hitters = j.loadHitters("./data/Hitters.json");
+        ArrayList<Pitcher> hitters = j.loadPitchers("./data/Pitchers.json");
         
+        System.out.println(hitters.get(0).nation);
+        System.out.println(hitters.get(3).nation);
 
         
     }
