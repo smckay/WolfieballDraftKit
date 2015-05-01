@@ -46,6 +46,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TableView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import data.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -134,9 +136,22 @@ public class gui {
     AddFantasyTeamDialog addFantasyTeamDialog;
     AddNewPlayerDialog addNewPlayerDialog;
     
+    ArrayList<Player> players;
+    ArrayList<Hitter> hitters;
+    ArrayList<Pitcher> pitchers;
     
-    public gui(Stage initPrimaryStage) {
+    
+    
+    public gui(Stage initPrimaryStage, ArrayList<Hitter> hits, ArrayList<Pitcher> pits) {
         primaryStage = initPrimaryStage;
+        hitters = hits;
+        pitchers = pits;
+        for(Player p: hitters){
+            players.add(p);
+        }
+        for(Player p: pitchers){
+            players.add(p);
+        }
     }
  
     public void initGui(){
