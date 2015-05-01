@@ -48,7 +48,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import data.*;
 import java.util.ArrayList;
-
+import file.*;
 /**
  *
  * @author sammckay
@@ -128,7 +128,7 @@ public class gui {
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
     
-    TableView playersTable;
+    TableView<Player> playersTable;
     TableView teamsTable;
     
     FileController filecontroller;
@@ -136,22 +136,31 @@ public class gui {
     AddFantasyTeamDialog addFantasyTeamDialog;
     AddNewPlayerDialog addNewPlayerDialog;
     
-    ArrayList<Player> players;
+    JsonFileManager j = new JsonFileManager();
+    
+
     ArrayList<Hitter> hitters;
     ArrayList<Pitcher> pitchers;
+    ArrayList<Player> players;
+    ArrayList<String> teams;
+    
+    String teamName;
     
     
     
-    public gui(Stage initPrimaryStage, ArrayList<Hitter> hits, ArrayList<Pitcher> pits) {
+    public gui(Stage initPrimaryStage) throws Exception{
         primaryStage = initPrimaryStage;
-        hitters = hits;
-        pitchers = pits;
-        for(Player p: hitters){
+        hitters = j.loadHitters("./data/Hitters.json");
+        pitchers = j.loadPitchers("./data/Pitchers.json");
+        players = new ArrayList<Player>();
+        for(Player p : hitters){
             players.add(p);
         }
-        for(Player p: pitchers){
+        for(Player p : pitchers){
             players.add(p);
         }
+        
+        
     }
  
     public void initGui(){
@@ -255,6 +264,8 @@ public class gui {
         
         TableColumn salCol = new TableColumn("Salary");
         salCol.setEditable(false);
+       
+        
 
         teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, salCol);
         
@@ -315,7 +326,7 @@ public class gui {
         
         innerPlayersPane = new BorderPane();
         
-        playersTable = new TableView();
+        playersTable = new TableView<Player>();
         playersTable.setEditable(true);       
        
         TableColumn firstNameCol = new TableColumn("First");
@@ -354,9 +365,16 @@ public class gui {
         TableColumn notesCol = new TableColumn("Notes");
         notesCol.setEditable(true);
         
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        notesCol.setCellValueFactory(new PropertyValueFactory<Player, String>("notes"));
+        teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
+        
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
         
+        ObservableList<Player> play = FXCollections.observableArrayList(players);
         
+        playersTable.setItems(play);
         
         pBox = new HBox();
         
