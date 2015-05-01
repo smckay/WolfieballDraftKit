@@ -143,12 +143,14 @@ public class gui {
     ArrayList<Hitter> hitters;
     ArrayList<Pitcher> pitchers;
     ArrayList<Player> players;
-    ArrayList<String> teams;
+    ArrayList<String> teamNames;
     
     ObservableList<Player> play;
     
     ArrayList<String> fTeams;
     ObservableList<String> fantasyTeams;
+    
+    Player addedPlayer;
     
     
     
@@ -157,7 +159,7 @@ public class gui {
         hitters = j.loadHitters("./data/Hitters.json");
         pitchers = j.loadPitchers("./data/Pitchers.json");
         players = new ArrayList<Player>();
-        teams = new ArrayList<String>();
+        teamNames = new ArrayList<String>();
         fTeams = new ArrayList<String>();
         fTeams.add("dasitmane");
         for(Player p : hitters){
@@ -167,14 +169,20 @@ public class gui {
             players.add(p);
         }
         for(Hitter p: hitters){
-           if(teams.indexOf(p.getTeam()) == -1)
-               teams.add(p.getTeam());
+           if(teamNames.indexOf(p.getTeam()) == -1)
+               teamNames.add(p.getTeam());
         }
         play = FXCollections.observableArrayList(players);
         fantasyTeams = FXCollections.observableArrayList(fTeams);
         
     }
  
+    public void setAddedPlayer(Player p){
+        addedPlayer = p;
+        play.add(p);
+        boolean b = false;
+    }
+    
     public void initGui(){
     
             initDialogs();
@@ -222,10 +230,7 @@ public class gui {
         });
         pAdd.setOnAction(e -> {
             filecontroller.handleAddNewPlayerRequest(this);
-            Player p = addNewPlayerDialog.getReturnedPlayer();
-            if(!(p.firstName.equals("0"))){
-                play.add(p);
-            }
+            
         });
         pRemove.setOnAction(e -> {
            play.remove(playersTable.getSelectionModel().getSelectedItem());
@@ -790,7 +795,7 @@ public class gui {
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, "Close");
         addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "");
-        addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teams);
+        addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teamNames, this);
     }
     
 }
