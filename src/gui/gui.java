@@ -124,6 +124,7 @@ public class gui {
     //players screen components
     HBox pBox;
     Button pAdd;
+    Button pRemove;
     
     // WE'LL ORGANIZE OUR WORKSPACE COMPONENTS USING A BORDER PANE
     BorderPane workspacePane;
@@ -144,7 +145,10 @@ public class gui {
     ArrayList<Player> players;
     ArrayList<String> teams;
     
-    String teamName;
+    ObservableList<Player> play;
+    
+    ArrayList<String> fTeams;
+    ObservableList<String> fantasyTeams;
     
     
     
@@ -153,13 +157,21 @@ public class gui {
         hitters = j.loadHitters("./data/Hitters.json");
         pitchers = j.loadPitchers("./data/Pitchers.json");
         players = new ArrayList<Player>();
+        teams = new ArrayList<String>();
+        fTeams = new ArrayList<String>();
+        fTeams.add("dasitmane");
         for(Player p : hitters){
             players.add(p);
         }
         for(Player p : pitchers){
             players.add(p);
         }
-        
+        for(Hitter p: hitters){
+           if(teams.indexOf(p.getTeam()) == -1)
+               teams.add(p.getTeam());
+        }
+        play = FXCollections.observableArrayList(players);
+        fantasyTeams = FXCollections.observableArrayList(fTeams);
         
     }
  
@@ -210,6 +222,14 @@ public class gui {
         });
         pAdd.setOnAction(e -> {
             filecontroller.handleAddNewPlayerRequest(this);
+            Player p = addNewPlayerDialog.getReturnedPlayer();
+            if(!(p.firstName.equals("0"))){
+                play.add(p);
+            }
+        });
+        pRemove.setOnAction(e -> {
+           play.remove(playersTable.getSelectionModel().getSelectedItem());
+          
         });
         
         
@@ -282,6 +302,7 @@ public class gui {
         select.setFont(Font.font("Verdana", 15));
         
         selectTeams = new ComboBox();
+        selectTeams.setItems(fantasyTeams);
         
         TextField text = new TextField();
         
@@ -369,10 +390,11 @@ public class gui {
         lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
         notesCol.setCellValueFactory(new PropertyValueFactory<Player, String>("notes"));
         teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
+        birthCol.setCellValueFactory(new PropertyValueFactory<Player, String>("birthYear"));
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
         
-        ObservableList<Player> play = FXCollections.observableArrayList(players);
+        
         
         playersTable.setItems(play);
         
@@ -426,18 +448,18 @@ public class gui {
         TextField text = new TextField();
         
         pAdd = new Button();
-        Button remove = new Button();
+        pRemove = new Button();
         
         pAdd.setGraphic(new ImageView(new Image("file:./images/Add.png"))); 
-        remove.setGraphic(new ImageView(new Image("file:./images/DeleteScheduleItem.png"))); 
+        pRemove.setGraphic(new ImageView(new Image("file:./images/DeleteScheduleItem.png"))); 
         
         Tooltip addTip = new Tooltip("Add");
         Tooltip removeTip = new Tooltip("Remove");
         
         pAdd.setTooltip(addTip);
-        remove.setTooltip(removeTip);
+        pRemove.setTooltip(removeTip);
         
-        innerBox.getChildren().addAll(pAdd, remove, search, text);
+        innerBox.getChildren().addAll(pAdd, pRemove, search, text);
         
         ex = new GridPane();
         ex.setStyle("-fx-background-color: #FF0000;");
@@ -768,7 +790,7 @@ public class gui {
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, "Close");
         addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "");
-        addNewPlayerDialog = new AddNewPlayerDialog(primaryStage);
+        addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teams);
     }
     
 }
