@@ -136,6 +136,8 @@ public class gui {
     MessageDialog messageDialog;
     AddFantasyTeamDialog addFantasyTeamDialog;
     AddNewPlayerDialog addNewPlayerDialog;
+    EditPlayerDialog editPlayerDialog;
+    EditFantasyTeamDialog editTeamDialog; 
     
     JsonFileManager j = new JsonFileManager();
     
@@ -147,10 +149,14 @@ public class gui {
     
     ObservableList<Player> play;
     
-    ArrayList<String> fTeams;
-    ObservableList<String> fantasyTeams;
+    ArrayList<Team> fTeams;
+    ObservableList<Team> fantasyTeams;
+    ArrayList<String> fNames;
+    ObservableList<String> fTeamNames;
+    
     
     Player addedPlayer;
+    Team addedTeam;
     
     
     
@@ -160,8 +166,8 @@ public class gui {
         pitchers = j.loadPitchers("./data/Pitchers.json");
         players = new ArrayList<Player>();
         teamNames = new ArrayList<String>();
-        fTeams = new ArrayList<String>();
-        fTeams.add("dasitmane");
+        fTeams = new ArrayList<Team>();
+        fNames = new ArrayList<String>();
         for(Player p : hitters){
             players.add(p);
         }
@@ -174,9 +180,19 @@ public class gui {
         }
         play = FXCollections.observableArrayList(players);
         fantasyTeams = FXCollections.observableArrayList(fTeams);
+        for(int i = 0; i < fTeams.size(); i++){
+            fNames.add(fTeams.get(i).name);
+        }
+        fTeamNames = FXCollections.observableArrayList(fNames);
         
     }
  
+    public void setAddedTeam(Team t){
+        addedTeam = t;
+        fantasyTeams.add(t);
+        fTeamNames.add(t.name);
+    }
+    
     public void setAddedPlayer(Player p){
         addedPlayer = p;
         play.add(p);
@@ -202,7 +218,7 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        filecontroller = new FileController(messageDialog, addFantasyTeamDialog, addNewPlayerDialog);
+        filecontroller = new FileController(messageDialog, addFantasyTeamDialog, addNewPlayerDialog, editPlayerDialog, editTeamDialog);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
             wbPane.setCenter(fantasyTeamsPane);
@@ -236,7 +252,15 @@ public class gui {
            play.remove(playersTable.getSelectionModel().getSelectedItem());
           
         });
-        
+        playersTable.setOnMouseClicked(e -> {
+           if(e.getClickCount() > 1){
+               filecontroller.handleEditPlayerRequest(this);
+           }
+        });
+        fEdit.setOnAction(e -> {
+            filecontroller.handleEditTeamRequest(this);
+          
+        });
         
     };
     
@@ -307,7 +331,7 @@ public class gui {
         select.setFont(Font.font("Verdana", 15));
         
         selectTeams = new ComboBox();
-        selectTeams.setItems(fantasyTeams);
+        selectTeams.setItems(fTeamNames);
         
         TextField text = new TextField();
         
@@ -794,8 +818,10 @@ public class gui {
      
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, "Close");
-        addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "");
+        addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "", this);
         addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teamNames, this);
+        editPlayerDialog = new EditPlayerDialog(primaryStage);
+        editTeamDialog = new EditFantasyTeamDialog(primaryStage);
     }
     
 }
