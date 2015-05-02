@@ -111,7 +111,7 @@ public class gui {
     RadioButton u;
     RadioButton p;
     
-    ComboBox selectTeams;
+    public ComboBox selectTeams;
     
     //fantasyTeamsPane components
 
@@ -152,7 +152,7 @@ public class gui {
     ArrayList<Team> fTeams;
     ObservableList<Team> fantasyTeams;
     ArrayList<String> fNames;
-    ObservableList<String> fTeamNames;
+    public ObservableList<String> fTeamNames;
     
     
     Player addedPlayer;
@@ -186,6 +186,10 @@ public class gui {
         fTeamNames = FXCollections.observableArrayList(fNames);
         
     }
+    
+    public ObservableList<Team> getFantasyTeams(){
+        return fantasyTeams;
+    }
  
     public void setAddedTeam(Team t){
         addedTeam = t;
@@ -197,6 +201,19 @@ public class gui {
         addedPlayer = p;
         play.add(p);
         boolean b = false;
+    }
+    
+    public void replaceTeamByName(String n, String replace){
+        int index = fTeamNames.indexOf(n);
+        System.out.println(replace);
+        fTeamNames.set(index, replace);
+        int i = 0;
+       for(i = 0; i < fTeams.size(); i++){
+           System.out.print(n + " " + fTeams.get(i).name);
+           if(((String)(fTeams.get(i).name)).equals(n))
+               break;
+       }
+       fTeams.set(i, new Team(replace, fTeams.get(i).owner));
     }
     
     public void initGui(){
@@ -256,6 +273,17 @@ public class gui {
            if(e.getClickCount() > 1){
                filecontroller.handleEditPlayerRequest(this);
            }
+        });
+        fRemove.setOnAction(e -> {
+          String n = (String)selectTeams.getValue();
+          fTeamNames.remove(n);
+          for(int i = 0; i < fantasyTeams.size(); i++){
+              if(fantasyTeams.get(i).name.equals(n)){
+                  fantasyTeams.remove(i);
+                  break;
+              }
+          }
+          
         });
         fEdit.setOnAction(e -> {
             filecontroller.handleEditTeamRequest(this);
@@ -821,7 +849,7 @@ public class gui {
         addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "", this);
         addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teamNames, this);
         editPlayerDialog = new EditPlayerDialog(primaryStage);
-        editTeamDialog = new EditFantasyTeamDialog(primaryStage);
+        editTeamDialog = new EditFantasyTeamDialog(primaryStage, this);
     }
     
 }
