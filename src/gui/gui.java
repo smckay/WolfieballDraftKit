@@ -148,10 +148,10 @@ public class gui {
 
     ArrayList<Hitter> hitters;
     ArrayList<Pitcher> pitchers;
-    ArrayList<Player> players;
+    public ArrayList<Player> players;
     ArrayList<String> teamNames;
     
-    ObservableList<Player> play;
+    public ObservableList<Player> play;
     
     ArrayList<Team> fTeams;
     ObservableList<Team> fantasyTeams;
@@ -161,6 +161,13 @@ public class gui {
     
     Player addedPlayer;
     Team addedTeam;
+    
+    TableView<Player> draftTable;
+    VBox dVBox;
+    HBox dHBox;
+    Button addOne;
+    Button autoDraft;
+    Button pause;
     
     
     
@@ -266,8 +273,7 @@ public class gui {
             filecontroller.handleAddTeamRequest(this);
         });
         pAdd.setOnAction(e -> {
-            filecontroller.handleAddNewPlayerRequest(this);
-            
+            filecontroller.handleAddNewPlayerRequest(this);            
         });
         pRemove.setOnAction(e -> {
            play.remove(playersTable.getSelectionModel().getSelectedItem());
@@ -569,11 +575,39 @@ public class gui {
     public void initDraftScreen(){
 
         draftPane = new BorderPane();
-        draftText = new Text("   Draft Summary");
+        draftText = new Text("Draft Summary");
         draftText.setFont(Font.font("Verdana", 30));
+        
+        dHBox = new HBox();
+        dVBox = new VBox();
+        
+        addOne = new Button();
+        addOne.setGraphic(new ImageView(new Image("file:./images/g.png"))); 
+        
+        autoDraft = new Button();
+        autoDraft.setGraphic(new ImageView(new Image("file:./images/gg.png"))); 
+        
+        pause = new Button();
+        pause.setGraphic(new ImageView(new Image("file:./images/ggg.png"))); 
+        
+        dHBox.getChildren().addAll(addOne, autoDraft, pause);
+        dVBox.getChildren().addAll(draftText, dHBox);
 
-        draftPane.setTop(draftText);
+        draftPane.setTop(dVBox);
 
+        draftTable = new TableView<Player>();
+        
+        TableColumn numPickCol = new TableColumn("Pick #");
+        TableColumn firstNameCol = new TableColumn("First");
+        TableColumn lastNameCol = new TableColumn("Last");
+        TableColumn teamCol = new TableColumn("Team");
+        TableColumn contractCol = new TableColumn("Contract");
+        TableColumn salaryCol = new TableColumn("Salary ($)");
+        
+        draftTable.getColumns().addAll(numPickCol, firstNameCol, lastNameCol, teamCol, contractCol, salaryCol);
+        
+        draftPane.setCenter(draftTable);
+        
         wbPane.setCenter(draftPane);
         wbPane.setBottom(bottomToolbarPane);
         
@@ -624,6 +658,8 @@ public class gui {
                     currentTable.add(players.get(i));
                 }
             }
+            
+            
             ObservableList obsTeamList = FXCollections.observableArrayList(currentTable);
             mlbTeamsTable.setItems(obsTeamList);
         });
