@@ -131,6 +131,8 @@ public class gui {
     
     TableView<Player> playersTable;
     TableView teamsTable;
+    TableView<Player> mlbTeamsTable;
+    ComboBox teamBox;
     
     FileController filecontroller;
     MessageDialog messageDialog;
@@ -568,11 +570,28 @@ public class gui {
     public void initMlbTeamsScreen(){
 
         mlbTeamsPane = new BorderPane();
-        mlbTeamsText = new Text("   MLB Teams");
+        mlbTeamsText = new Text("MLB Teams");
         mlbTeamsText.setFont(Font.font("Verdana", 30));
 
-        mlbTeamsPane.setTop(mlbTeamsText);
+        Text proTeamText = new Text("Select Pro Team");
+        HBox hbox = new HBox();
+        VBox mlbTopBox = new VBox();
+        
+        
+        teamBox = new ComboBox();
+        ArrayList teamList = new ArrayList();
+        for(int i = 0; i < players.size(); i++){
+            if(teamList.indexOf(players.get(i).getTeam()) == -1){
+                teamList.add(players.get(i).getTeam());
+            }
+        }
+        ObservableList observableTeamList = FXCollections.observableArrayList(teamList);
+        teamBox.setItems(observableTeamList);
+        
+        hbox.getChildren().addAll(proTeamText, teamBox);
+        mlbTopBox.getChildren().addAll(mlbTeamsText, hbox);
 
+        mlbTeamsPane.setTop(mlbTopBox);
         wbPane.setCenter(mlbTeamsPane);
         wbPane.setBottom(bottomToolbarPane);
         
