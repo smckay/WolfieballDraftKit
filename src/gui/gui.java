@@ -55,6 +55,8 @@ import file.*;
  */
 public class gui {
     
+    Button b;
+    
     // THIS IS THE APPLICATION WINDOW
     Stage primaryStage;
     
@@ -291,7 +293,18 @@ public class gui {
             filecontroller.handleEditTeamRequest(this);
           
         });
-        
+        teamBox.setOnAction(e -> {
+            String team = (String)(teamBox.getValue());
+            ArrayList<Player> currentTable = new ArrayList<Player>();
+            for(int i = 0; i < players.size(); i++){
+                if(players.get(i).getTeam().equals(team)){
+                    currentTable.add(players.get(i));
+                }
+            }
+            ObservableList observableTeamList = FXCollections.observableArrayList(currentTable);
+            mlbTeamsTable.setItems(observableTeamList);
+        });
+
     };
     
     public void initFantasyTeamsScreen(){
@@ -576,6 +589,7 @@ public class gui {
         Text proTeamText = new Text("Select Pro Team");
         HBox hbox = new HBox();
         VBox mlbTopBox = new VBox();
+       
         
         
         teamBox = new ComboBox();
@@ -585,13 +599,37 @@ public class gui {
                 teamList.add(players.get(i).getTeam());
             }
         }
+        mlbTeamsTable = new TableView<Player>();
+        
+        TableColumn firstNameCol = new TableColumn("First");
+        TableColumn lastNameCol = new TableColumn("Last");
+        TableColumn positionsCol = new TableColumn("Positions");
+        
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        
+        mlbTeamsTable.getColumns().addAll(firstNameCol, lastNameCol, positionsCol);
+        
         ObservableList observableTeamList = FXCollections.observableArrayList(teamList);
         teamBox.setItems(observableTeamList);
         
         hbox.getChildren().addAll(proTeamText, teamBox);
         mlbTopBox.getChildren().addAll(mlbTeamsText, hbox);
+        
+        teamBox.setOnAction(e -> {
+            String team = (String)(teamBox.getValue());
+            ArrayList<Player> currentTable = new ArrayList<Player>();
+            for(int i = 0; i < players.size(); i++){
+                if(players.get(i).getTeam().equals(team)){
+                    currentTable.add(players.get(i));
+                }
+            }
+            ObservableList obsTeamList = FXCollections.observableArrayList(currentTable);
+            mlbTeamsTable.setItems(obsTeamList);
+        });
 
         mlbTeamsPane.setTop(mlbTopBox);
+        mlbTeamsPane.setCenter(mlbTeamsTable);
         wbPane.setCenter(mlbTeamsPane);
         wbPane.setBottom(bottomToolbarPane);
         
