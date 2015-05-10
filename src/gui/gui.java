@@ -862,11 +862,13 @@ public class gui {
         });
         
         autoDraft.setOnAction( e -> {
+           
             int finished = 0;
             while(finished < fantasyTeams.size() * 23){
             int i = 0;
             int j = 0;
             boolean done = false;
+            boolean addedPlayer = false;
             if(fantasyTeams.size() == 0){}
             else{
                 while(! done){
@@ -883,6 +885,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).pitchersNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -895,6 +898,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).catchersNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -907,6 +911,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).fBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -919,6 +924,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).tBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -931,6 +937,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).cornerNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -943,6 +950,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).sBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -955,6 +963,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).ssNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -967,6 +976,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).miNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -979,6 +989,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).ofNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -991,6 +1002,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).uNeeded--;
+                                addedPlayer = true;
                             }
                             
                             else j++;  
@@ -999,7 +1011,19 @@ public class gui {
                     else{
                         i++;
                     }  
-                    
+                    if((! addedPlayer) && allTeamsFilled()){
+                        int a = 0;
+                        while(fantasyTeams.get(a).taxiNeeded == 0){
+                            a++;
+                        }
+                        if(a < fantasyTeams.size()){
+                            draftPicks.add(play.get(0));
+                            play.get(0).salary = 1;
+                            play.get(0).contract = "X";
+                            play.get(0).fantasyTeam = fantasyTeams.get(a).name;
+                            fantasyTeams.get(a).addPlayer(play.remove(0));
+                        }
+                    }
                 }
             }
             finished++;
