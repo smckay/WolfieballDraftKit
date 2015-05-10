@@ -173,6 +173,7 @@ public class gui {
     Button pause;
     
     TableView fsTable;
+    TableView<Player> taxiTable;
     
     
     
@@ -327,6 +328,9 @@ public class gui {
         fantasyTeamsText.setFont(Font.font("Verdana", 30));
 
         
+         VBox sp = new VBox();
+        taxiTable = new TableView<Player>();
+        
         teamsTable = new TableView();
         teamsTable.setEditable(true);       
         
@@ -373,9 +377,23 @@ public class gui {
         
 
         teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, salCol);
+        taxiTable.getColumns().addAll(firstNameCol, lastNameCol,positionsCol);
+        
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
+        
+        
+        Text startLineup = new Text("Starting Lineup");
+        Text taxi = new Text("Taxi Squad");
+        
+        startLineup.setFont(Font.font("Verdana", 20));
+        taxi.setFont(Font.font("Verdana", 20));
+        
+        sp.getChildren().addAll(startLineup, teamsTable, taxi, taxiTable);
         
         //ADDING TABLE
-        fantasyTeamsPane.setCenter(teamsTable);
+        fantasyTeamsPane.setCenter(sp);
         
         //CREATING COMPONENTS FOR TOP OF FANTASYTEAMSSCREEN
         fVbox = new VBox();
@@ -420,6 +438,17 @@ public class gui {
         //wbPane.setCenter(fantasyTeamsPane);
         //wbPane.setBottom(bottomToolbarPane);
         
+        selectTeams.setOnAction(e -> {
+           Team t = new Team(null, null);
+           String name = (String)selectTeams.getValue();
+           for(int i = 0; i < fantasyTeams.size(); i++){
+               if(fantasyTeams.get(i).name.equals(name)){
+                   t = fantasyTeams.get(i);
+                   break;
+               }
+           }
+           taxiTable.setItems(FXCollections.observableArrayList(t.taxi));
+        });
          
       
     }
@@ -601,6 +630,17 @@ public class gui {
       
     }
     
+    public boolean allTeamsFilled(){
+        boolean ans = true;
+        for(int i = 0; i < fantasyTeams.size(); i++){
+            if(fantasyTeams.get(i).playersNeeded != 0){
+                ans = false;
+                break;
+            }
+        }
+        return ans;
+    }
+    
     public void initDraftScreen(){
 
         draftPane = new BorderPane();
@@ -655,6 +695,11 @@ public class gui {
             int i = 0;
             int j = 0;
             boolean done = false;
+            boolean addedPlayer = false;
+            
+            
+            
+            
             if(fantasyTeams.size() == 0){}
             else{
                 while(! done){
@@ -671,6 +716,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).pitchersNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -683,6 +729,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).catchersNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -695,6 +742,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).fBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -707,6 +755,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).tBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -719,6 +768,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).cornerNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -731,6 +781,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).sBaseNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -743,6 +794,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).ssNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -755,6 +807,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).miNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -767,6 +820,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).ofNeeded--;
+                                addedPlayer = true;
                             }
                             else j++;  
                         }
@@ -779,6 +833,7 @@ public class gui {
                                 done = true;
                                 j = 0;
                                 fantasyTeams.get(i).uNeeded--;
+                                addedPlayer = true;
                             }
                             
                             else j++;  
@@ -787,6 +842,20 @@ public class gui {
                     else{
                         i++;
                     }  
+                   
+                    if((! addedPlayer) && allTeamsFilled()){
+                        int a = 0;
+                        while(fantasyTeams.get(a).taxiNeeded == 0){
+                            a++;
+                        }
+                        if(a < fantasyTeams.size()){
+                            draftPicks.add(play.get(0));
+                            play.get(0).salary = 1;
+                            play.get(0).contract = "X";
+                            play.get(0).fantasyTeam = fantasyTeams.get(a).name;
+                            fantasyTeams.get(a).addPlayer(play.remove(0));
+                        }
+                    }
                     
                 }
             }
