@@ -157,6 +157,8 @@ public class gui {
     ObservableList<Team> fantasyTeams;
     ArrayList<String> fNames;
     public ObservableList<String> fTeamNames;
+    ArrayList<Player> draftedPlayers = new ArrayList<Player>();
+    ObservableList<Player> draftPicks = FXCollections.observableArrayList(draftedPlayers);
     
     
     Player addedPlayer;
@@ -168,6 +170,8 @@ public class gui {
     Button addOne;
     Button autoDraft;
     Button pause;
+    
+    TableView fsTable;
     
     
     
@@ -185,6 +189,9 @@ public class gui {
         for(Player p : pitchers){
             players.add(p);
         }
+        for(Player p : players){
+            p.contract = "S2";
+        }       
         for(Hitter p: hitters){
            if(teamNames.indexOf(p.getTeam()) == -1)
                teamNames.add(p.getTeam());
@@ -310,7 +317,6 @@ public class gui {
             ObservableList observableTeamList = FXCollections.observableArrayList(currentTable);
             mlbTeamsTable.setItems(observableTeamList);
         });
-
     };
     
     public void initFantasyTeamsScreen(){
@@ -469,6 +475,7 @@ public class gui {
         notesCol.setCellValueFactory(new PropertyValueFactory<Player, String>("notes"));
         teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
         birthCol.setCellValueFactory(new PropertyValueFactory<Player, String>("birthYear"));
+        positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
         
@@ -561,10 +568,31 @@ public class gui {
     public void initFantasyStandingsScreen(){
 
         fantasyStandingsPane = new BorderPane();
-        fantasyStandingsText = new Text("   Fantasy Standings");
+        fantasyStandingsText = new Text("Fantasy Standings");
         fantasyStandingsText.setFont(Font.font("Verdana", 30));
+        
+        fsTable = new TableView();
+        
+        TableColumn teamName = new TableColumn("Team Name");
+        TableColumn playersNeeded = new TableColumn("Players Needed");
+        TableColumn left = new TableColumn("$ Left");
+        TableColumn pp = new TableColumn("$ PP");
+        TableColumn r = new TableColumn("R");
+        TableColumn hr = new TableColumn("HR");
+        TableColumn rbi = new TableColumn("RBI");
+        TableColumn sb = new TableColumn("SB");
+        TableColumn ba = new TableColumn("BA");
+        TableColumn w = new TableColumn("W");
+        TableColumn sv = new TableColumn("SV");
+        TableColumn k = new TableColumn("Pick #");
+        TableColumn era = new TableColumn("ERA");
+        TableColumn whip = new TableColumn("WHIP");
+        TableColumn points = new TableColumn("Total Points");
+        
+        fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
 
         fantasyStandingsPane.setTop(fantasyStandingsText);
+        fantasyStandingsPane.setCenter(fsTable);
 
         wbPane.setCenter(fantasyStandingsPane);
         wbPane.setBottom(bottomToolbarPane);
@@ -604,13 +632,161 @@ public class gui {
         TableColumn contractCol = new TableColumn("Contract");
         TableColumn salaryCol = new TableColumn("Salary ($)");
         
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("fantasyTeam"));
+        contractCol.setCellValueFactory(new PropertyValueFactory<Player, String>("Contract"));
+        salaryCol.setCellValueFactory(new PropertyValueFactory<Player, Integer>("salary"));
+        
         draftTable.getColumns().addAll(numPickCol, firstNameCol, lastNameCol, teamCol, contractCol, salaryCol);
+        
+        draftTable.setItems(draftPicks);
         
         draftPane.setCenter(draftTable);
         
         wbPane.setCenter(draftPane);
         wbPane.setBottom(bottomToolbarPane);
         
+        
+        addOne.setOnAction(e -> {
+            int i = 0;
+            int j = 0;
+            boolean done = false;
+            if(fantasyTeams.size() == 0){}
+            else{
+                while(! done){
+                    if(i >= fantasyTeams.size()){
+                        done = true;
+                    }
+                    else if(fantasyTeams.get(i).playersNeeded > 0){
+                        if(fantasyTeams.get(i).pitchersNeeded > 0){
+                            if(play.get(j).getQp().contains("P")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).pitchersNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).catchersNeeded > 0){
+                            if(play.get(j).getQp().contains("C_")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).catchersNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).fBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).fBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).tBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).tBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).cornerNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).cornerNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).sBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).sBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).ssNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).ssNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).miNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).miNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).ofNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).ofNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).uNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).uNeeded--;
+                            }
+                            else j++;  
+                        }
+                        
+                    }
+                    else{
+                        i++;
+                    }
+                }
+            }
+        });
       
     }
     
@@ -641,6 +817,7 @@ public class gui {
         
         firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
         
         mlbTeamsTable.getColumns().addAll(firstNameCol, lastNameCol, positionsCol);
         
