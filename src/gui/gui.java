@@ -777,14 +777,160 @@ public class gui {
                                 j = 0;
                                 fantasyTeams.get(i).uNeeded--;
                             }
+                            
                             else j++;  
-                        }
-                        
+                        }                        
                     }
                     else{
                         i++;
-                    }
+                    }  
+                    
                 }
+            }
+        });
+        
+        autoDraft.setOnAction( e -> {
+            int finished = 0;
+            while(finished < fantasyTeams.size() * 23){
+            int i = 0;
+            int j = 0;
+            boolean done = false;
+            if(fantasyTeams.size() == 0){}
+            else{
+                while(! done){
+                    if(i >= fantasyTeams.size()){
+                        done = true;
+                    }
+                    else if(fantasyTeams.get(i).playersNeeded > 0){
+                        if(fantasyTeams.get(i).pitchersNeeded > 0){
+                            if(play.get(j).getQp().contains("P")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).pitchersNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).catchersNeeded > 0){
+                            if(play.get(j).getQp().contains("C_")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).catchersNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).fBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).fBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).tBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).tBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).cornerNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).cornerNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).sBaseNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).sBaseNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).ssNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).ssNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).miNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).miNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).ofNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).ofNeeded--;
+                            }
+                            else j++;  
+                        }
+                        else if(fantasyTeams.get(i).uNeeded > 0){
+                            if(play.get(j).getQp().contains("1B")){
+                                draftPicks.add(play.get(j));
+                                play.get(j).salary = 1;
+                                play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                fantasyTeams.get(i).addPlayer(play.remove(j));
+                                done = true;
+                                j = 0;
+                                fantasyTeams.get(i).uNeeded--;
+                            }
+                            
+                            else j++;  
+                        }                        
+                    }
+                    else{
+                        i++;
+                    }  
+                    
+                }
+            }
+            finished++;
             }
         });
       
