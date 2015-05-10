@@ -5,6 +5,7 @@
  */
 package gui;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -625,7 +626,6 @@ public class gui {
 
         draftTable = new TableView<Player>();
         
-        TableColumn numPickCol = new TableColumn("Pick #");
         TableColumn firstNameCol = new TableColumn("First");
         TableColumn lastNameCol = new TableColumn("Last");
         TableColumn teamCol = new TableColumn("Team");
@@ -637,8 +637,11 @@ public class gui {
         teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("fantasyTeam"));
         contractCol.setCellValueFactory(new PropertyValueFactory<Player, String>("Contract"));
         salaryCol.setCellValueFactory(new PropertyValueFactory<Player, Integer>("salary"));
+        TableColumn<Player, Number> indexColumn = new TableColumn<Player, Number>("Pick #");
+        indexColumn.setSortable(false);
+        indexColumn.setCellValueFactory(column-> new ReadOnlyObjectWrapper<Number>(draftTable.getItems().indexOf(column.getValue()) + 1));
         
-        draftTable.getColumns().addAll(numPickCol, firstNameCol, lastNameCol, teamCol, contractCol, salaryCol);
+        draftTable.getColumns().addAll(indexColumn, firstNameCol, lastNameCol, teamCol, contractCol, salaryCol);
         
         draftTable.setItems(draftPicks);
         
