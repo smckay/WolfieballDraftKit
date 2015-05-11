@@ -133,7 +133,7 @@ public class gui {
     BorderPane workspacePane;
     
     TableView<Player> playersTable;
-    TableView teamsTable;
+    TableView<Player> teamsTable;
     TableView<Player> mlbTeamsTable;
     ComboBox teamBox;
     
@@ -143,6 +143,7 @@ public class gui {
     AddNewPlayerDialog addNewPlayerDialog;
     EditPlayerDialog editPlayerDialog;
     EditFantasyTeamDialog editTeamDialog; 
+    changeContractDialog change;
     
     JsonFileManager j = new JsonFileManager();
     
@@ -255,7 +256,7 @@ public class gui {
     }
     
     public void initEventHandlers(){
-        filecontroller = new FileController(messageDialog, addFantasyTeamDialog, addNewPlayerDialog, editPlayerDialog, editTeamDialog);
+        filecontroller = new FileController(messageDialog, addFantasyTeamDialog, addNewPlayerDialog, editPlayerDialog, editTeamDialog, change);
         newDraftButton.setOnAction(e -> {
             filecontroller.handleNewDraftRequest(this);
             wbPane.setCenter(fantasyTeamsPane);
@@ -331,7 +332,7 @@ public class gui {
          VBox sp = new VBox();
         taxiTable = new TableView<Player>();
         
-        teamsTable = new TableView();
+        teamsTable = new TableView<Player>();
         teamsTable.setEditable(true);       
         
         //INITIALIZING TABLE COLUMNS
@@ -376,12 +377,15 @@ public class gui {
        
         
 
-        teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, salCol);
+        teamsTable.getColumns().addAll(posCol, firstNameCol, lastNameCol, proTeamCol, positionsCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estCol, contractCol, salCol);
         taxiTable.getColumns().addAll(firstNameCol, lastNameCol,positionsCol);
         
         firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
-        positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
+        posCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
+        proTeamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
+        contractCol.setCellValueFactory(new PropertyValueFactory<Player, String>("contract"));
+        salCol.setCellValueFactory(new PropertyValueFactory<Player, String>("salary"));
         
         
         Text startLineup = new Text("Starting Lineup");
@@ -448,9 +452,14 @@ public class gui {
                }
            }
            taxiTable.setItems(FXCollections.observableArrayList(t.taxi));
+           teamsTable.setItems(FXCollections.observableArrayList(t.roster));
         });
          
-      
+      teamsTable.setOnMouseClicked(e -> {
+           if(e.getClickCount() > 1){
+               filecontroller.handleChangeContractRequest(this);
+           }
+        });
     }
     
     public void initPlayersScreen(){
@@ -502,12 +511,17 @@ public class gui {
         
         firstNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<Player, String>("lastName"));
+        rwCol.setCellValueFactory(new PropertyValueFactory<Player, String>("rw"));
+        hrsvCol.setCellValueFactory(new PropertyValueFactory<Player, String>("hrsv"));
+        rbikCol.setCellValueFactory(new PropertyValueFactory<Player, String>("rbik"));
+        sberaCol.setCellValueFactory(new PropertyValueFactory<Player, String>("sbera"));
+        bawhipCol.setCellValueFactory(new PropertyValueFactory<Player, String>("bawhip"));
         notesCol.setCellValueFactory(new PropertyValueFactory<Player, String>("notes"));
         teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
         birthCol.setCellValueFactory(new PropertyValueFactory<Player, String>("birthYear"));
         positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
         
-        playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, sberaCol, bawhipCol, estValCol, notesCol);
+        playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estValCol, notesCol);
         
         
         
@@ -619,8 +633,15 @@ public class gui {
         TableColumn whip = new TableColumn("WHIP");
         TableColumn points = new TableColumn("Total Points");
         
+        teamName.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
+        playersNeeded.setCellValueFactory(new PropertyValueFactory<Team, String>("playersNeeded"));
+        left.setCellValueFactory(new PropertyValueFactory<Team, String>("moneyLeft"));
+        
+        
         fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
 
+        fsTable.setItems(fantasyTeams);
+        
         fantasyStandingsPane.setTop(fantasyStandingsText);
         fantasyStandingsPane.setCenter(fsTable);
 
@@ -1360,8 +1381,9 @@ public class gui {
         messageDialog = new MessageDialog(primaryStage, "Close");
         addFantasyTeamDialog = new AddFantasyTeamDialog(primaryStage, "", this);
         addNewPlayerDialog = new AddNewPlayerDialog(primaryStage, teamNames, this);
-        editPlayerDialog = new EditPlayerDialog(primaryStage);
+        editPlayerDialog = new EditPlayerDialog(primaryStage, this);
         editTeamDialog = new EditFantasyTeamDialog(primaryStage, this);
+        change = new changeContractDialog(primaryStage, this);
     }
     
 }
