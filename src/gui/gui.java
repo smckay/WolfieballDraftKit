@@ -509,6 +509,196 @@ public class gui {
        for(int i = 0; i < tempList.size(); i++){
            tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
        }
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getRbi() < min.getRbi())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getSb() < min.getSb())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(Double.parseDouble(fantasyTeams.get(j).getBa()) < Double.parseDouble(min.getBa()))
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getW() < min.getW())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getSv() < min.getSv())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getK() < min.getK())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(Double.parseDouble(fantasyTeams.get(j).getEra()) < Double.parseDouble(min.getEra()))
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(Double.parseDouble(fantasyTeams.get(j).getWhip()) < Double.parseDouble(min.getWhip()))
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
    }
     
     public void initPlayersScreen(){
