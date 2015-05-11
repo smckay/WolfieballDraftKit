@@ -9,7 +9,7 @@ package data;
  *
  * @author sammckay
  */
-public class Pitcher {
+public class Pitcher extends Player{
         
     public String team;
     public String lastName;
@@ -24,6 +24,8 @@ public class Pitcher {
     public String notes;
     public String birthYear;
     public String nation;
+    public String qp;
+    
     
     public Pitcher(){
         team = "0";
@@ -39,6 +41,7 @@ public class Pitcher {
         notes = "0";
         birthYear= "0";
         nation = "0";
+        qp = "0";
     }
     
     public Pitcher(String t, String ln, String fn, String q, String a, String r, String h, String h2, String rb, String s, String n, String by, String nat){
@@ -55,6 +58,36 @@ public class Pitcher {
         notes = n;
         birthYear = by;
         nation = nat;
+    }
+    
+    
+    
+    public String getQp(){
+        return qp;
+    }
+    
+    public String getTeam(){
+        return team;
+    }
+    
+    public String getLastName(){
+        return lastName;
+    }
+    
+    public String getFirstName(){
+        return firstName;
+    }
+    
+    public String getNotes(){
+        return notes;
+    }
+    
+    public String getBirthYear(){
+        return birthYear;
+    }
+    
+    public String getNation(){
+        return nation;
     }
     
 }
