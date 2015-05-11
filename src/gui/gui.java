@@ -156,7 +156,7 @@ public class gui {
     public ObservableList<Player> play;
     
     ArrayList<Team> fTeams;
-    ObservableList<Team> fantasyTeams;
+    public ObservableList<Team> fantasyTeams;
     ArrayList<String> fNames;
     public ObservableList<String> fTeamNames;
     ArrayList<Player> draftedPlayers = new ArrayList<Player>();
@@ -462,6 +462,55 @@ public class gui {
         });
     }
     
+    public void setTeamRanks(){
+       ArrayList<Team> temp = new ArrayList();
+       ObservableList<Team> tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       int size = tempList.size() - 1;
+       int j = 0;
+       Team min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getR() < min.getR())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < fantasyTeams.size(); i++){
+           tempList.add(fantasyTeams.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = fantasyTeams.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = fantasyTeams.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(fantasyTeams.get(j).getHr() < min.getHr())
+                   min = fantasyTeams.get(j);
+           }
+           int index = fantasyTeams.indexOf(min);
+           Team temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(int i = 0; i < tempList.size(); i++){
+           tempList.get(i).setScore(tempList.get(i).getScore() + i + 1);
+       }
+   }
+    
     public void initPlayersScreen(){
 
         playersPane = new BorderPane();
@@ -643,6 +692,11 @@ public class gui {
         sb.setCellValueFactory(new PropertyValueFactory<Team, String>("sb"));
         ba.setCellValueFactory(new PropertyValueFactory<Team, String>("ba"));
         w.setCellValueFactory(new PropertyValueFactory<Team, String>("w"));
+        sv.setCellValueFactory(new PropertyValueFactory<Team, String>("sv"));
+        k.setCellValueFactory(new PropertyValueFactory<Team, String>("k"));
+        era.setCellValueFactory(new PropertyValueFactory<Team, String>("era"));
+        whip.setCellValueFactory(new PropertyValueFactory<Team, String>("whip"));
+        points.setCellValueFactory(new PropertyValueFactory<Team, String>("score"));
         for(int i = 0; i < fantasyTeams.size(); i++){
             fantasyTeams.get(i).setR(this);
             fantasyTeams.get(i).setHr(this);
@@ -650,8 +704,12 @@ public class gui {
             fantasyTeams.get(i).setSb(this);
             fantasyTeams.get(i).setBa(this);
             fantasyTeams.get(i).setW(this);
+            fantasyTeams.get(i).setSv(this);
+            fantasyTeams.get(i).setK(this);
+            fantasyTeams.get(i).setEra(this);
+            fantasyTeams.get(i).setWhip(this);
         }
-        
+        setTeamRanks();
         fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
 
         fsTable.setItems(fantasyTeams);
@@ -885,7 +943,7 @@ public class gui {
                         }
                         if(a < fantasyTeams.size()){
                             draftPicks.add(play.get(0));
-                            play.get(0).salary = 1;
+                            play.get(0).salary = 0;
                             play.get(0).contract = "X";
                             play.get(0).fantasyTeam = fantasyTeams.get(a).name;
                             fantasyTeams.get(a).addPlayer(play.remove(0));
@@ -1055,7 +1113,7 @@ public class gui {
                         }
                         if(a < fantasyTeams.size()){
                             draftPicks.add(play.get(0));
-                            play.get(0).salary = 1;
+                            play.get(0).salary = 0;
                             play.get(0).contract = "X";
                             play.get(0).fantasyTeam = fantasyTeams.get(a).name;
                             fantasyTeams.get(a).addPlayer(play.remove(0));
