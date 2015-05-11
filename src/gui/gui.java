@@ -711,7 +711,12 @@ public class gui {
      
     
         for(Player p : play){
-            p.setEstVal(remainingMoney);
+            if(p.getQp().contains("P"))
+                p.setEstVal(String.format("%.2f", (((double)(remainingMoney * 2)) / (2 * pitchers.size())) * (((double)(pitchers.size() * 2))/((int)(Math.random() * pitchers.size())))));
+            else{
+                p.setEstVal(String.format("%.2f", (((double)(remainingMoney * 2)) / (2 * hitters.size())) * (((double)(hitters.size() * 2))/((int)(Math.random() * hitters.size())))));
+            }
+            
         }
         playersTable.getColumns().get(0).setVisible(false);
         playersTable.getColumns().get(0).setVisible(true);
