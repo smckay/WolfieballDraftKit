@@ -267,6 +267,7 @@ public class gui {
             wbPane.setBottom(bottomToolbarPane);
         });
         Players.setOnAction(e -> {
+            setEstVal();
             wbPane.setCenter(playersPane);
             wbPane.setBottom(bottomToolbarPane);
         });
@@ -707,7 +708,22 @@ public class gui {
         for(int i = 0; i < fantasyTeams.size(); i++){
             remainingMoney += fantasyTeams.get(i).moneyLeft;
         }
+     
+    
+        for(Player p : play){
+            p.setEstVal(remainingMoney);
+        }
+        playersTable.getColumns().get(0).setVisible(false);
+        playersTable.getColumns().get(0).setVisible(true);
         
+        //for(Player p : play){
+          //  if(p.qp.contains("P")){
+            //    System.out.println("lol");
+                //p.estVal = (((double)remainingMoney )/ 2 * pitchers.size()) * (((double)(pitchers.size() * 2)) / Math.random() * pitchers.size() );
+           // }
+        }
+        
+        /*
        ArrayList<Hitter> temp = new ArrayList();
        ObservableList<Hitter> tempList = FXCollections.observableArrayList(temp);
        for(int i = 0; i < hitters.size(); i++){
@@ -858,13 +874,14 @@ public class gui {
                 if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
                 {
                     p.estVal = (((double)(remainingMoney * 2)) / (2 * hitters.size())) * (((double)(hitters.size() * 2))/p.averageRank);
+                    System.out.println(p.estVal);
                 }
             }
-        }
+        }*/
        
        
        
-    }
+    
     
     public void initPlayersScreen(){
 
@@ -925,7 +942,7 @@ public class gui {
         birthCol.setCellValueFactory(new PropertyValueFactory<Player, String>("birthYear"));
         positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
         estValCol.setCellValueFactory(new PropertyValueFactory<Player, String>("estVal"));
-        setEstVal();
+        //setEstVal();
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estValCol, notesCol);
         
