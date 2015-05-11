@@ -148,7 +148,7 @@ public class gui {
     JsonFileManager j = new JsonFileManager();
     
 
-    ArrayList<Hitter> hitters;
+    public ArrayList<Hitter> hitters;
     ArrayList<Pitcher> pitchers;
     public ArrayList<Player> players;
     ArrayList<String> teamNames;
@@ -636,7 +636,15 @@ public class gui {
         teamName.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
         playersNeeded.setCellValueFactory(new PropertyValueFactory<Team, String>("playersNeeded"));
         left.setCellValueFactory(new PropertyValueFactory<Team, String>("moneyLeft"));
-        
+        pp.setCellValueFactory(new PropertyValueFactory<Team, String>("pp"));
+        r.setCellValueFactory(new PropertyValueFactory<Team, String>("r"));
+        hr.setCellValueFactory(new PropertyValueFactory<Team, String>("hr"));
+        rbi.setCellValueFactory(new PropertyValueFactory<Team, String>("rbi"));
+        for(int i = 0; i < fantasyTeams.size(); i++){
+            fantasyTeams.get(i).setR(this);
+            fantasyTeams.get(i).setHr(this);
+            fantasyTeams.get(i).setRbi(this);
+        }
         
         fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
 
@@ -902,6 +910,7 @@ public class gui {
                                 draftPicks.add(play.get(j));
                                 play.get(j).salary = 1;
                                 play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                
                                 fantasyTeams.get(i).addPlayer(play.remove(j));
                                 done = true;
                                 j = 0;
@@ -954,6 +963,7 @@ public class gui {
                                 draftPicks.add(play.get(j));
                                 play.get(j).salary = 1;
                                 play.get(j).fantasyTeam = fantasyTeams.get(i).name;
+                                
                                 fantasyTeams.get(i).addPlayer(play.remove(j));
                                 done = true;
                                 j = 0;
