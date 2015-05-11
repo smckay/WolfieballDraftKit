@@ -463,6 +463,7 @@ public class gui {
     }
     
     public void setTeamRanks(){
+        
        ArrayList<Team> temp = new ArrayList();
        ObservableList<Team> tempList = FXCollections.observableArrayList(temp);
        for(int i = 0; i < fantasyTeams.size(); i++){
@@ -701,6 +702,170 @@ public class gui {
        }
    }
     
+    public void setEstVal(){
+        int remainingMoney = 0;
+        for(int i = 0; i < fantasyTeams.size(); i++){
+            remainingMoney += fantasyTeams.get(i).moneyLeft;
+        }
+        
+       ArrayList<Hitter> temp = new ArrayList();
+       ObservableList<Hitter> tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < hitters.size(); i++){
+           tempList.add(hitters.get(i));
+       }
+       
+       int size = tempList.size() - 1;
+       int j = 0;
+       Hitter min = hitters.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = hitters.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(Integer.parseInt(hitters.get(j).getR()) < Integer.parseInt(min.getR()))
+                   min = hitters.get(j);
+           }
+           int index = hitters.indexOf(min);
+           Hitter temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.averageRank = tempList.indexOf(h) + 1;
+                }
+            }
+        }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < hitters.size(); i++){
+           tempList.add(hitters.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = hitters.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = hitters.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(hitters.get(j).getHrsv() < min.getHrsv())
+                   min = hitters.get(j);
+           }
+           int index = hitters.indexOf(min);
+           Hitter temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.averageRank =  tempList.indexOf(h) + 1;
+                }
+            }
+        }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < hitters.size(); i++){
+           tempList.add(hitters.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = hitters.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = hitters.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(hitters.get(j).getRbik() < min.getRbik())
+                   min = hitters.get(j);
+           }
+           int index = hitters.indexOf(min);
+           Hitter temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.averageRank =  tempList.indexOf(h) + 1;
+                }
+            }
+        }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < hitters.size(); i++){
+           tempList.add(hitters.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = hitters.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = hitters.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(hitters.get(j).getSbera() < min.getSbera())
+                   min = hitters.get(j);
+           }
+           int index = hitters.indexOf(min);
+           Hitter temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.averageRank =  tempList.indexOf(h) + 1;
+                }
+            }
+        }
+       
+       temp = new ArrayList();
+       tempList = FXCollections.observableArrayList(temp);
+       for(int i = 0; i < hitters.size(); i++){
+           tempList.add(hitters.get(i));
+       }
+       
+       size = tempList.size() - 1;
+       j = 0;
+       min = hitters.get(0);
+       for(int i = 0; i < tempList.size(); i++){
+           min = hitters.get(i);
+           for(j = i; j < tempList.size(); j++){
+               if(Double.parseDouble(hitters.get(j).getBawhip()) < Double.parseDouble(min.getBawhip()))
+                   min = hitters.get(j);
+           }
+           int index = hitters.indexOf(min);
+           Hitter temporary = tempList.get(i);
+           tempList.set(i, min);
+           tempList.set(index, temporary);
+       }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.averageRank =  tempList.indexOf(h) + 1;
+                    p.averageRank /= 5;
+                }
+            }
+        }
+       for(Player p: play){
+            for(Hitter h: hitters){
+                if(p.getFirstName().equals(h.firstName) && p.getLastName().equals(h.lastName))
+                {
+                    p.estVal = (((double)(remainingMoney * 2)) / (2 * hitters.size())) * (((double)(hitters.size() * 2))/p.averageRank);
+                }
+            }
+        }
+       
+       
+       
+    }
+    
     public void initPlayersScreen(){
 
         playersPane = new BorderPane();
@@ -759,6 +924,8 @@ public class gui {
         teamCol.setCellValueFactory(new PropertyValueFactory<Player, String>("team"));
         birthCol.setCellValueFactory(new PropertyValueFactory<Player, String>("birthYear"));
         positionsCol.setCellValueFactory(new PropertyValueFactory<Player, String>("qp"));
+        estValCol.setCellValueFactory(new PropertyValueFactory<Player, String>("estVal"));
+        setEstVal();
         
         playersTable.getColumns().addAll(firstNameCol, lastNameCol, teamCol, positionsCol, birthCol, rwCol, hrsvCol, rbikCol, sberaCol, bawhipCol, estValCol, notesCol);
         
@@ -899,7 +1066,8 @@ public class gui {
             fantasyTeams.get(i).setEra(this);
             fantasyTeams.get(i).setWhip(this);
         }
-        setTeamRanks();
+        if(fantasyTeams.size() > 0)
+            setTeamRanks();
         fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
 
         fsTable.setItems(fantasyTeams);
