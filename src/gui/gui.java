@@ -149,7 +149,7 @@ public class gui {
     
 
     public ArrayList<Hitter> hitters;
-    ArrayList<Pitcher> pitchers;
+    public ArrayList<Pitcher> pitchers;
     public ArrayList<Player> players;
     ArrayList<String> teamNames;
     
@@ -640,10 +640,16 @@ public class gui {
         r.setCellValueFactory(new PropertyValueFactory<Team, String>("r"));
         hr.setCellValueFactory(new PropertyValueFactory<Team, String>("hr"));
         rbi.setCellValueFactory(new PropertyValueFactory<Team, String>("rbi"));
+        sb.setCellValueFactory(new PropertyValueFactory<Team, String>("sb"));
+        ba.setCellValueFactory(new PropertyValueFactory<Team, String>("ba"));
+        w.setCellValueFactory(new PropertyValueFactory<Team, String>("w"));
         for(int i = 0; i < fantasyTeams.size(); i++){
             fantasyTeams.get(i).setR(this);
             fantasyTeams.get(i).setHr(this);
             fantasyTeams.get(i).setRbi(this);
+            fantasyTeams.get(i).setSb(this);
+            fantasyTeams.get(i).setBa(this);
+            fantasyTeams.get(i).setW(this);
         }
         
         fsTable.getColumns().addAll(teamName, playersNeeded, left, pp, r, hr, rbi, sb, ba, w, sv, k, era, whip, points);
